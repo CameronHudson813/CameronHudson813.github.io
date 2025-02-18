@@ -2,9 +2,9 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/Penguin Blog Post/index.html",
       "/posts/new-test-post/index.html",
-      "/posts/new-new-test-post/index.html",
-      "/posts/example-blog-post/index.html"
+      "/posts/new-new-test-post/index.html"
     ]
   }
 ]
