@@ -2,9 +2,10 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/Auditing Bias/index.html",
       "/posts/Automated Decision Systems/index.html",
       "/posts/Penguin Blog Post/index.html",
-      "/posts/new-test-post/index.html",
+      "/posts/tests/index.html",
       "/posts/new-new-test-post/index.html"
     ]
   }
