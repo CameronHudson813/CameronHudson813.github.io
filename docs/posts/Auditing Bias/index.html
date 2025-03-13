@@ -737,6 +737,7 @@ background-size: cover;
 </section>
 <section id="model-auditing" class="level1">
 <h1>Model Auditing</h1>
+<p>Now that we have created the predictor model, we can now audit the model, first concerning ourself on its overall accurracy. Below, we ask a few questions that will give us an idea of the accuracy of the model.</p>
 <section id="overall-measures" class="level2">
 <h2 class="anchored" data-anchor-id="overall-measures">Overall Measures</h2>
 <ol type="1">
@@ -747,7 +748,7 @@ background-size: cover;
 <section id="overall-acurracy-of-model" class="level3">
 <h3 class="anchored" data-anchor-id="overall-acurracy-of-model">Overall Acurracy of Model</h3>
 <p>To get the overall accuracy of the model, get a boolean vector through <code>(y_hat == y_test)</code> which will give an array of truth or false values corresponding to the equality of the prediction and the actual value. To get the percentage of the correct predictions in the boolean vector, we take the mean with the <code>mean()</code> function.</p>
-<div id="cell-38" class="cell" data-execution_count="75">
+<div id="cell-39" class="cell" data-execution_count="75">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>model_accuracy <span class="op">=</span> (y_hat <span class="op">==</span> y_test).mean()</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>model_accuracy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="75">
@@ -759,7 +760,7 @@ background-size: cover;
 <section id="ppv-of-the-model" class="level3">
 <h3 class="anchored" data-anchor-id="ppv-of-the-model">PPV of the Model</h3>
 <p>To get the positive predictive value of the model, we divide the number of true positives (TP) by the total number of positive predictions (TP + FP)</p>
-<div id="cell-42" class="cell" data-execution_count="16">
+<div id="cell-43" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>confusion_array <span class="op">=</span> confusion_matrix(y_test, y_hat)</span>
@@ -769,7 +770,7 @@ background-size: cover;
        [1192, 7679]])</code></pre>
 </div>
 </div>
-<div id="cell-43" class="cell" data-execution_count="17">
+<div id="cell-44" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>TP <span class="op">=</span> confusion_array[<span class="dv">0</span>][<span class="dv">0</span>]</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>FN <span class="op">=</span> confusion_array[<span class="dv">0</span>][<span class="dv">1</span>]</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>FP <span class="op">=</span> confusion_array[<span class="dv">1</span>][<span class="dv">0</span>]</span>
@@ -785,7 +786,7 @@ background-size: cover;
 <section id="fpr-and-fnr-of-the-model" class="level3">
 <h3 class="anchored" data-anchor-id="fpr-and-fnr-of-the-model">FPR and FNR of the Model</h3>
 <p>Similarly, we can use the confusion matrix to get the FPR and FNR of the model</p>
-<div id="cell-45" class="cell" data-execution_count="18">
+<div id="cell-46" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># False positive rate calculation</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>FPR <span class="op">=</span> FP <span class="op">/</span> (FP <span class="op">+</span> TN)</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>FPR</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -793,7 +794,7 @@ background-size: cover;
 <pre><code>np.float64(0.1343704204711983)</code></pre>
 </div>
 </div>
-<div id="cell-46" class="cell" data-execution_count="19">
+<div id="cell-47" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># False negative rate calculation</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>FNR <span class="op">=</span> FN <span class="op">/</span> (FN <span class="op">+</span> TP)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>FNR</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -805,13 +806,14 @@ background-size: cover;
 </section>
 <section id="by-group-measures" class="level2">
 <h2 class="anchored" data-anchor-id="by-group-measures">By-Group Measures</h2>
+<p>Now that we have observed the overall accuracy of the model, we now concern ourselves with the accuracy of the model as it pertains to the racial groups (white, black, other) that exist within the dataset. Below we ask a few questions:</p>
 <ol type="1">
 <li>What is the accuracy of your model on each subgroup</li>
 <li>What is the PPV of your model on each subgroup?</li>
 <li>What are the FNR and FPR on each subgroup?</li>
 </ol>
 <p>To answer question 1, we can make a summary table displaying the accuracy of the model on each subgroup</p>
-<div id="cell-49" class="cell" data-execution_count="58">
+<div id="cell-50" class="cell" data-execution_count="58">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>accuracy_group_1 <span class="op">=</span> (y_hat[group_test <span class="op">==</span> <span class="dv">1</span>] <span class="op">==</span> y_test[group_test <span class="op">==</span> <span class="dv">1</span>]).mean()</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>accuracy_group_2 <span class="op">=</span> (y_hat[group_test <span class="op">==</span> <span class="dv">2</span>] <span class="op">==</span> y_test[group_test <span class="op">==</span> <span class="dv">2</span>]).mean()</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>accuracy_group_3 <span class="op">=</span> (y_hat[group_test <span class="op">==</span> <span class="dv">3</span>] <span class="op">==</span> y_test[group_test <span class="op">==</span> <span class="dv">3</span>]).mean()</span>
@@ -850,7 +852,7 @@ background-size: cover;
 </div>
 </div>
 <p>To answer question 2, we can return to the idea of confusion matrices, making one for each subgroup and calculating the PPV as TP (True Positive Predictions) / TP + FP (False Positive Predictions).</p>
-<div id="cell-51" class="cell" data-execution_count="61">
+<div id="cell-52" class="cell" data-execution_count="61">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>white_confusion_array <span class="op">=</span> confusion_matrix((y_test[group_test <span class="op">==</span> <span class="dv">1</span>]), y_hat[group_test <span class="op">==</span> <span class="dv">1</span>])  </span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>black_confusion_array <span class="op">=</span> confusion_matrix((y_test[group_test <span class="op">==</span> <span class="dv">2</span>]), y_hat[group_test <span class="op">==</span> <span class="dv">2</span>])</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>other_confusion_array <span class="op">=</span> confusion_matrix((y_test[group_test <span class="op">==</span> <span class="dv">3</span>]), y_hat[group_test <span class="op">==</span> <span class="dv">3</span>])</span>
@@ -893,7 +895,7 @@ background-size: cover;
 </div>
 </div>
 <p>To answer question 3, we can take a simiar approach as shown above, only switching the values that we are taking from the confusion matrix</p>
-<div id="cell-53" class="cell" data-execution_count="63">
+<div id="cell-54" class="cell" data-execution_count="63">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>white_confusion_array <span class="op">=</span> confusion_matrix((y_test[group_test <span class="op">==</span> <span class="dv">1</span>]), y_hat[group_test <span class="op">==</span> <span class="dv">1</span>])  </span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>black_confusion_array <span class="op">=</span> confusion_matrix((y_test[group_test <span class="op">==</span> <span class="dv">2</span>]), y_hat[group_test <span class="op">==</span> <span class="dv">2</span>])</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>other_confusion_array <span class="op">=</span> confusion_matrix((y_test[group_test <span class="op">==</span> <span class="dv">3</span>]), y_hat[group_test <span class="op">==</span> <span class="dv">3</span>])</span>
@@ -951,25 +953,26 @@ background-size: cover;
 </section>
 <section id="bias-measures" class="level2">
 <h2 class="anchored" data-anchor-id="bias-measures">Bias Measures</h2>
+<p>Now that we have evaluted the overall accuracy and the accuracy within groups of the model, we now use statistical definitions of fairness to ascertain a sense of the models “fairness”. Below, we ask a few questions:</p>
 <ol type="1">
 <li>Is the model approximately calibrated?</li>
 <li>Does the model satisfy approximate error rate balance?</li>
 <li>Does the model satisfy statistical parity?</li>
 </ol>
 <p>To answer question 1, we can get the calibration of the model by evulating it by group. If the model is approximately calibrated, then its accuracy at predicting in each group * people in the dataset should roughly equal the number of the people of that particular group in the dataset.</p>
-<div id="cell-56" class="cell" data-execution_count="85">
+<div id="cell-57" class="cell" data-execution_count="85">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">int</span>(X_test.shape[<span class="dv">0</span>] <span class="op">*</span> accuracy_group_1), X_test[group_test <span class="op">==</span> <span class="dv">1</span>].shape[<span class="dv">0</span>]), </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="85">
 <pre><code>((16444, 16815),)</code></pre>
 </div>
 </div>
-<div id="cell-57" class="cell" data-execution_count="86">
+<div id="cell-58" class="cell" data-execution_count="86">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">int</span>(X_test.shape[<span class="dv">0</span>] <span class="op">*</span> accuracy_group_2), X_test[group_test <span class="op">==</span> <span class="dv">2</span>].shape[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="86">
 <pre><code>(16242, 1813)</code></pre>
 </div>
 </div>
-<div id="cell-58" class="cell" data-execution_count="87">
+<div id="cell-59" class="cell" data-execution_count="87">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">int</span>(X_test.shape[<span class="dv">0</span>] <span class="op">*</span> accuracy_group_3), X_test[group_test <span class="op">==</span> <span class="dv">3</span>].shape[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="87">
 <pre><code>(15780, 126)</code></pre>
@@ -977,7 +980,7 @@ background-size: cover;
 </div>
 <p>We can see that for group 1 the model is highly calibrated however for groups 2 and 3 the model is not.</p>
 <p>To answer question 2, we must see if the true positive and false positive rates between the three groups are roughly equal. As we have done before, we display a dataframe that will allow us to analyze the relationship of the true postive and false positive rates between groups. Because we have already computed the false positive rate for each group, we only need to compute the true positive rate.</p>
-<div id="cell-61" class="cell" data-execution_count="91">
+<div id="cell-62" class="cell" data-execution_count="91">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>white_confusion_array <span class="op">=</span> confusion_matrix((y_test[group_test <span class="op">==</span> <span class="dv">1</span>]), y_hat[group_test <span class="op">==</span> <span class="dv">1</span>])  </span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>black_confusion_array <span class="op">=</span> confusion_matrix((y_test[group_test <span class="op">==</span> <span class="dv">2</span>]), y_hat[group_test <span class="op">==</span> <span class="dv">2</span>])</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>other_confusion_array <span class="op">=</span> confusion_matrix((y_test[group_test <span class="op">==</span> <span class="dv">3</span>]), y_hat[group_test <span class="op">==</span> <span class="dv">3</span>])</span>
@@ -1030,7 +1033,7 @@ background-size: cover;
 </div>
 <p>We can see that between the 3 groups, the TPR and FPR are roughly the same, with the TPR for each group around 75-56% and the FPR around 13%.</p>
 <p>To answer question 3 and evaluate the model for statistical parity, we must evaluate if the probability of positive prediction (this person is predicted to be employed) is the same across the different groups (black, white, other).</p>
-<div id="cell-64" class="cell" data-execution_count="103">
+<div id="cell-65" class="cell" data-execution_count="103">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>prob_white <span class="op">=</span> X_test[(group_test <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (y_hat <span class="op">==</span> <span class="dv">1</span>)].shape[<span class="dv">0</span>] <span class="op">/</span> X_test[group_test <span class="op">==</span> <span class="dv">1</span>].shape[<span class="dv">0</span>] </span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>prob_black <span class="op">=</span> X_test[(group_test <span class="op">==</span> <span class="dv">2</span>) <span class="op">&amp;</span> (y_hat <span class="op">==</span> <span class="dv">1</span>)].shape[<span class="dv">0</span>] <span class="op">/</span> X_test[group_test <span class="op">==</span> <span class="dv">2</span>].shape[<span class="dv">0</span>] </span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>prob_other <span class="op">=</span> X_test[(group_test <span class="op">&gt;=</span> <span class="dv">3</span>) <span class="op">&amp;</span> (y_hat <span class="op">==</span> <span class="dv">1</span>)].shape[<span class="dv">0</span>] <span class="op">/</span> X_test[group_test <span class="op">&gt;=</span> <span class="dv">3</span>].shape[<span class="dv">0</span>] </span>
@@ -1068,8 +1071,7 @@ background-size: cover;
 </div>
 </div>
 <p>We can see here that model does not pass the test of statistical parity, as the <code>black</code> and <code>other</code> groups have roughly the same percentage, however the <code>white</code> group is ahead of both by roughly 7 percent.</p>
-<p>We will conclude our visual demonstration of the fairness of this model by</p>
-<p>We will conclude our visual demonstration of the fairness of this model by</p>
+<p>We will conclude our visual demonstration of the fairness of this model by showing the relationship between the FPR and FNR of each group as well as the possible FNR and FPR values, depicted by lines showing the relationship between the FPR and FNR.</p>
 <div id="cell-68" class="cell" data-execution_count="127">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> pyplot</span>
@@ -1117,8 +1119,44 @@ background-size: cover;
 </div>
 </section>
 </section>
+<section id="balancing-the-fnr-and-fpr" class="level1">
+<h1>Balancing the FNR and FPR</h1>
+<p>This plot could also assist in answering the following question: If the classifier threshold is tuned so that FPR is equal between groups, how much would be need to change the FNR?</p>
+<p>As shown by the graph, we would need to move the points up or down (depending on which FPR we want to align with) to have equal FPR’s across groups. This would then change each groups FNR, which we can evaluate by equalizing the FPRs.</p>
+<div id="cell-71" class="cell" data-execution_count="132">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>min_FPR <span class="op">=</span> <span class="bu">min</span>(white_FPR, black_FPR, other_FPR)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>FPR_groups <span class="op">=</span> [min_FPR, min_FPR, min_FPR]</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>pyplot.figure(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">5</span>))</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>pyplot.title(<span class="st">"Feasible (FNR, FPR) combinations"</span>)</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>pyplot.xlim(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>pyplot.xlabel(<span class="st">"False Negative Rate"</span>)</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>pyplot.ylim(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>pyplot.ylabel(<span class="st">"False Positive Rate"</span>)</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>group_labels <span class="op">=</span> [<span class="st">"White"</span>, <span class="st">"Black"</span>, <span class="st">"Other"</span>]</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>palette <span class="op">=</span> {<span class="st">"White"</span>: <span class="st">"yellow"</span>, <span class="st">"Black"</span>: <span class="st">"black"</span>, <span class="st">"Other"</span>: <span class="st">"red"</span>}</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>FNR_groups, y<span class="op">=</span>FPR_groups, hue <span class="op">=</span> group_labels, palette<span class="op">=</span>palette)</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x<span class="op">=</span>fnr_values, y <span class="op">=</span> white_fpr_values, color<span class="op">=</span><span class="st">"yellow"</span>)</span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x<span class="op">=</span>fnr_values, y <span class="op">=</span> black_fpr_values, color<span class="op">=</span><span class="st">"black"</span>)</span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x<span class="op">=</span>fnr_values, y <span class="op">=</span> other_fpr_values, color<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>pyplot.show()</span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a>pyplot.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-29-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
 <section id="concluding-discussion" class="level1">
 <h1>Concluding Discussion</h1>
+<p>To conclude our discussion auditing the fairness of this model that predicts employment status, I will answer a few questions regarding the overall fairness concerns and impact of this particular predictor model.</p>
 <ol type="1">
 <li>What groups of people stand to benefit from a system that is able to predict a person’s employment status?</li>
 </ol>
