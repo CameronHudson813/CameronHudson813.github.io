@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Phil Chodrow">
+<meta name="dcterms.date" content="2023-03-10">
+<meta name="description" content="A new blog post that I just made!">
 
-<title>My Awesome CSCI 0451 Blog</title>
+<title>Timnit Gebru – My Awesome CSCI 0451 Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,27 +23,59 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6de787833effe4777a6777a5e05fb578.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-6de787833effe4777a6777a5e05fb578.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,35 +103,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <style>
 
       .quarto-title-block .quarto-title-banner h1,
@@ -111,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
 
       .quarto-title-block .quarto-title-banner {
         color: white;
-background-image: url(img/landscape.png);
+background-image: url(../../img/landscape.png);
 background-size: cover;
       }
 </style>
@@ -146,17 +152,17 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">My Awesome CSCI 0451 Blog</span>
     </a>
   </div>
@@ -167,7 +173,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">Cameron Hudson’s Machine Learning Blog</span></a>
   </li>  
   <li class="nav-item compact">
@@ -190,240 +196,127 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">My Awesome CSCI 0451 Blog</h1>
-                      </div>
+    <div class="quarto-title column-body">
+      <h1 class="title">Timnit Gebru</h1>
+                  <div>
+        <div class="description">
+          A new blog post that I just made!
+        </div>
+      </div>
+                </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page-left">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Phil Chodrow </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 10, 2023</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(7)</span></div></div></div>
+    
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
+<div id="cell-1" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> source <span class="im">import</span> Perceptron</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-2" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> Perceptron()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>I did it!!
+not implemented</code></pre>
+</div>
+</div>
+<p>This is an example of the blog posts that you’ll submit as your primary form of learning demonstration in CSCI 0451. I created this post by modifying the file <code>posts/example-blog-post/index.ipynb</code> in VSCode. You can also use JupyterLab for this editing if you prefer. Finally, it is possible to write blog posts without using notebooks by writing <code>.qmd</code> files, as illustrated <a href="https://quarto.org/docs/get-started/hello/vscode.html">here</a>.</p>
+<section id="frontmatter" class="level1">
+<h1>Frontmatter</h1>
+<p>Your notebook needs to contain some metadata: things like the title, author, date, etc. You specify this in a <code>raw</code> cell at the very beginning of the notebook. In this notebook, the contents of this cell is:</p>
+<pre><code>---
+title: Hello Blog
+author: Phil Chodrow
+date: '2023-01-10'
+image: "image.jpg"
+description: "An example blog post illustrating the key techniques you'll need to demonstrate your learning in CSCI 0451."
+format: html
+---</code></pre>
+<p>Frontmatter can be fiddly (it’s sensitive to spaces, for example), and so the best approach is usually to copy and paste it from previous blog posts, modifying it as appropriate.</p>
+</section>
+<section id="running-python-code" class="level1">
+<h1>Running Python Code</h1>
+<p>To run Python code, place your code in a Python code block inside your notebook. You can run the code block inside VSCode (or JupyterLab) using the keyboard shortcut <code>ctrl + Enter</code>. You’ll see the result of your computation below the code, including the value of the most recent statement.</p>
+<div id="cell-4" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">"CSCI"</span> <span class="op">+</span> <span class="st">" 0451"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>'CSCI 0451'</code></pre>
+</div>
+</div>
+<p>We’ll have lots of opportunities to make data visualizations in this course. These also display inside the notebook, and get converted into your blog post:</p>
+<div id="cell-6" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span>np.pi, <span class="dv">1001</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.sin(x)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.plot(x, y)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"y"</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>title <span class="op">=</span> plt.gca().<span class="bu">set</span>(title <span class="op">=</span> <span class="st">"My Fancy Plot"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Another thing we’ll often do is implement an algorithm in a source file (i.e.&nbsp;a <code>.py</code> file) and then <em>use</em> it in a notebook. To do this, just place the <code>.py</code> file in the same directory as the notebook. For example, the file <code>source.py</code> in the same directory contains a custom function (which prints a message). I can use like this:</p>
+<div id="cell-8" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> source </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>source.my_custom_function()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>source.my_custom_function()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>I implemented this function in the file source.py
+I implemented this function in the file source.py</code></pre>
+</div>
+</div>
+</section>
+<section id="markdown" class="level1">
+<h1>Markdown</h1>
+<p>You can use Markdown syntax to write text in Markdown cells. Markdown allows you to create simple text formatting like bullets, italics, and section headers. The Quarto <a href="https://quarto.org/docs/authoring/markdown-basics.html">description of markdown basics</a> has everything you need to get started.</p>
+<section id="math" class="level2">
+<h2 class="anchored" data-anchor-id="math">Math</h2>
+<p>In addition to regular text using the Markdown specification, you can also write mathematics, enclosed between dollar signs. The syntax for writing math is very similar to the syntax used in the <span class="math inline">\(\LaTeX\)</span> markup language. For example, <code>$f(x) \approx y$</code> renders to <span class="math inline">\(f(x) \approx y\)</span>. To place complex mathematical expressions on their own lines, use double dollar signs. For example, the expression</p>
+<p><code>$$\mathcal{L}(a, b) = \sum_{i = 1}^n (ax_i + b - y_i)^2$$</code></p>
+<p>renders to:</p>
+<p><span class="math display">\[\mathcal{L}(a, b) = \sum_{i = 1}^n (ax_i + b - y_i)^2\;.\]</span></p>
+<p>Behind the scenes, math is powered by the MathJax engine. For more on how to write math, check this handy <a href="https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference">tutorial and quick reference</a>.</p>
 
 
+</section>
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1742360400000" data-listing-file-modified-sort="1742438962002" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1630">
-<div class="thumbnail">
-<p><a href="./posts/Limits of the Quantitative Approach to Bias and Fairness/index.html" class="no-external"></a></p><a href="./posts/Limits of the Quantitative Approach to Bias and Fairness/index.html" class="no-external">
-<p><img loading="lazy" src="./posts/Limits of the Quantitative Approach to Bias and Fairness/image.jpg" class="thumbnail-image"></p>
-</a><p><a href="./posts/Limits of the Quantitative Approach to Bias and Fairness/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/Limits of the Quantitative Approach to Bias and Fairness/index.html" class="no-external">Limits of the Quantitative Approach to Bias and Fairness</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/Limits of the Quantitative Approach to Bias and Fairness/index.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/Limits of the Quantitative Approach to Bias and Fairness/index.html" class="no-external">Discussion of the efficacy of quantitative methods in evaluating the fairness of machine learning algorithms.</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/Limits of the Quantitative Approach to Bias and Fairness/index.html" class="no-external">
-<div class="listing-date">
-Mar 19, 2025
-</div>
-<div class="listing-author">
-Cameron Hudson
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1741755600000" data-listing-file-modified-sort="1741837103463" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1785">
-<div class="thumbnail">
-<p><a href="./posts/Auditing Bias/index.html" class="no-external"></a></p><a href="./posts/Auditing Bias/index.html" class="no-external">
-<p><img loading="lazy" src="./posts/Auditing Bias/image.jpg" class="thumbnail-image"></p>
-</a><p><a href="./posts/Auditing Bias/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/Auditing Bias/index.html" class="no-external">Auditing Bias</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/Auditing Bias/index.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/Auditing Bias/index.html" class="no-external">Using the PUMS dataset to predict employment and audit for racial bias.</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/Auditing Bias/index.html" class="no-external">
-<div class="listing-date">
-Mar 12, 2025
-</div>
-<div class="listing-author">
-Cameron Hudson
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1741154400000" data-listing-file-modified-sort="1741228832301" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1807">
-<div class="thumbnail">
-<p><a href="./posts/Automated Decision Systems/index.html" class="no-external"></a></p><a href="./posts/Automated Decision Systems/index.html" class="no-external">
-<p><img loading="lazy" src="./posts/Automated Decision Systems/image.jpg" class="thumbnail-image"></p>
-</a><p><a href="./posts/Automated Decision Systems/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/Automated Decision Systems/index.html" class="no-external">Design and Impact of Automated Decision Systems</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/Automated Decision Systems/index.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/Automated Decision Systems/index.html" class="no-external">An introduction into automated decision making systems with machine learning and their societal impacts</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/Automated Decision Systems/index.html" class="no-external">
-<div class="listing-date">
-Mar 5, 2025
-</div>
-<div class="listing-author">
-Cameron Hudson
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1740031200000" data-listing-file-modified-sort="1741005417772" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1158">
-<div class="thumbnail">
-<p><a href="./posts/Penguin Blog Post/index.html" class="no-external"></a></p><a href="./posts/Penguin Blog Post/index.html" class="no-external">
-<p><img loading="lazy" src="./posts/Penguin Blog Post/penguin_header.jpg" class="thumbnail-image"></p>
-</a><p><a href="./posts/Penguin Blog Post/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/Penguin Blog Post/index.html" class="no-external">Palmer Penguins Blog Post</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/Penguin Blog Post/index.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/Penguin Blog Post/index.html" class="no-external">Using the Palmer Penguins dataset to make predictions on species of penguins</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/Penguin Blog Post/index.html" class="no-external">
-<div class="listing-date">
-Feb 20, 2025
-</div>
-<div class="listing-author">
-Cameron Hudson
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-listing-date-sort="1678428000000" data-listing-file-modified-sort="1742152302404" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="441">
-<div class="thumbnail">
-<p><a href="./posts/new-new-test-post copy 2/index.html" class="no-external"></a></p><a href="./posts/new-new-test-post copy 2/index.html" class="no-external">
-<p><img loading="lazy" src="./posts/new-new-test-post copy 2/image.jpg" class="thumbnail-image"></p>
-</a><p><a href="./posts/new-new-test-post copy 2/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/new-new-test-post copy 2/index.html" class="no-external">Timnit Gebru</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/new-new-test-post copy 2/index.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/new-new-test-post copy 2/index.html" class="no-external">A new blog post that I just made!</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/new-new-test-post copy 2/index.html" class="no-external">
-<div class="listing-date">
-Mar 10, 2023
-</div>
-<div class="listing-author">
-Phil Chodrow
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="5" data-listing-date-sort="1678428000000" data-listing-file-modified-sort="1741624515787" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="441">
-<div class="thumbnail">
-<p><a href="./posts/tests/index.html" class="no-external"></a></p><a href="./posts/tests/index.html" class="no-external">
-<p><img loading="lazy" src="./posts/tests/image.jpg" class="thumbnail-image"></p>
-</a><p><a href="./posts/tests/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/tests/index.html" class="no-external">Second Post</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/tests/index.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/tests/index.html" class="no-external">A new blog post that I just made!</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/tests/index.html" class="no-external">
-<div class="listing-date">
-Mar 10, 2023
-</div>
-<div class="listing-author">
-Phil Chodrow
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="6" data-listing-date-sort="1678428000000" data-listing-file-modified-sort="1742152296168" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="441">
-<div class="thumbnail">
-<p><a href="./posts/Implementing the Perceptron Algorithm/index.html" class="no-external"></a></p><a href="./posts/Implementing the Perceptron Algorithm/index.html" class="no-external">
-<p><img loading="lazy" src="./posts/Implementing the Perceptron Algorithm/image.jpg" class="thumbnail-image"></p>
-</a><p><a href="./posts/Implementing the Perceptron Algorithm/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/Implementing the Perceptron Algorithm/index.html" class="no-external">Timnit Gebru</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/Implementing the Perceptron Algorithm/index.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/Implementing the Perceptron Algorithm/index.html" class="no-external">A new blog post that I just made!</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/Implementing the Perceptron Algorithm/index.html" class="no-external">
-<div class="listing-date">
-Mar 10, 2023
-</div>
-<div class="listing-author">
-Phil Chodrow
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
