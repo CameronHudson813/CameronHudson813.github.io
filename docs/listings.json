@@ -2,13 +2,14 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/Implementing Perceptron/index.html",
       "/posts/Limits of the Quantitative Approach to Bias and Fairness/index.html",
       "/posts/Auditing Bias/index.html",
       "/posts/Automated Decision Systems/index.html",
       "/posts/Penguin Blog Post/index.html",
-      "/posts/new-new-test-post copy 2/index.html",
-      "/posts/tests/index.html",
-      "/posts/Implementing the Perceptron Algorithm/index.html"
+      "/posts/new-new-test-post copy 4/index.html",
+      "/posts/new-new-test-post copy 3/index.html",
+      "/posts/tests/index.html"
     ]
   }
 ]
