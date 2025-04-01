@@ -64,7 +64,6 @@ class Perceptron(LinearModel):
         """
         Compute the misclassification rate. A point i is classified correctly if it holds that s_i*y_i_ > 0, where y_i_ is the *modified label* that has values in {-1, 1} (rather than {0, 1}). 
 
-        what are modified labels??
         ARGUMENTS: 
             X, torch.Tensor: the feature matrix. X.size() == (n, p), 
             where n is the number of data points and p is the 
@@ -82,7 +81,11 @@ class Perceptron(LinearModel):
         return (scores * y_ < 0).float().sum() / scores.numel()
 
     def grad(self, X, y):
-        pass 
+        score_i = self.score(X) 
+        misclassified = score_i * (2*y - 1) < 0 
+
+        return (-1 * misclassified) * ((2*y - 1) * X)
+
 
 class PerceptronOptimizer:
 
@@ -95,4 +98,4 @@ class PerceptronOptimizer:
         and target vector y. 
         """
         self.model.loss(X, y)
-        self.model.grad(X, y) - self.model.w
+        self.model.w -= self.model.grad(X,y)[0]
