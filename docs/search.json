@@ -11,7 +11,70 @@
     "href": "posts/Implementing Perceptron/index.html",
     "title": "Implementing Perceptron",
     "section": "",
-    "text": "%load_ext autoreload\n%autoreload 2\nfrom perceptron import Perceptron, PerceptronOptimizer"
+    "text": "perceptron.py"
+  },
+  {
+    "objectID": "posts/Implementing Perceptron/index.html#perceptron-algorithm-on-linearly-seperable-data",
+    "href": "posts/Implementing Perceptron/index.html#perceptron-algorithm-on-linearly-seperable-data",
+    "title": "Implementing Perceptron",
+    "section": "Perceptron Algorithm on Linearly Seperable Data",
+    "text": "Perceptron Algorithm on Linearly Seperable Data\nHere, we will define the code that usings the functions from percepton.py to demonstrate the perceptron algorithm’s behavior on linearly seperable data.\n\n#Written by Professor Chordrow\ndef draw_line(w, x_min, x_max, ax, **kwargs):\n    w_ = w.flatten()\n    x = torch.linspace(x_min, x_max, 101)\n    y = -(w_[0]*x + w_[2])/w_[1]\n    l = ax.plot(x, y, **kwargs)\n\n\n#Written by Professor Chordrow\ntorch.manual_seed(1234567)\n\n# initialize a perceptron \np = Perceptron()\nopt = PerceptronOptimizer(p)\np.loss(X, y)\n\n# set up the figure\nplt.rcParams[\"figure.figsize\"] = (7, 5)\nfig, axarr = plt.subplots(2, 3, sharex = True, sharey = True)\nmarkers = [\"o\", \",\"]\nmarker_map = {-1 : 0, 1 : 1}\n\n# initialize for main loop\ncurrent_ax = 0\nloss = 1\nloss_vec = []\n\nwhile loss &gt; 0:\n    ax = axarr.ravel()[current_ax]\n\n    # save the old value of w for plotting later\n    old_w = torch.clone(p.w)\n\n    # make an optimization step -- this is where the update actually happens\n    # now p.w is the new value \n\n    i = torch.randint(n, size = (1,))\n    x_i = X[[i],:]\n    y_i = y[i]\n    local_loss = p.loss(x_i, y_i).item()\n\n    if local_loss &gt; 0:\n        opt.step(x_i, y_i)\n    # if a change was made, plot the old and new decision boundaries\n    # also add the new loss to loss_vec for plotting below\n    if local_loss &gt; 0:\n        plot_perceptron_data(X, y, ax)\n        draw_line(old_w, x_min = -1, x_max = 2, ax = ax, color = \"black\", linestyle = \"dashed\")\n        loss = p.loss(X, y).item()\n        loss_vec.append(loss)\n        draw_line(p.w, x_min = -1, x_max = 2, ax = ax, color = \"black\")\n        ax.scatter(X[i,0],X[i,1], color = \"black\", facecolors = \"none\", edgecolors = \"black\", marker = markers[marker_map[2*(y[i].item())-1]])\n        # draw_line(w, -10, 10, ax, color = \"black\")\n        ax.set_title(f\"loss = {loss:.3f}\")\n        ax.set(xlim = (-1, 2), ylim = (-1, 2))\n        current_ax += 1\nplt.tight_layout()\n\ntensor([True])\ntensor([True])\ntensor([True])\ntensor([True])\ntensor([True])\ntensor([True])"
+  },
+  {
+    "objectID": "posts/Implementing Perceptron/index.html#perceptron-algorithm-on-non-linearly-seperable-data",
+    "href": "posts/Implementing Perceptron/index.html#perceptron-algorithm-on-non-linearly-seperable-data",
+    "title": "Implementing Perceptron",
+    "section": "Perceptron Algorithm on Non-Linearly Seperable Data",
+    "text": "Perceptron Algorithm on Non-Linearly Seperable Data\nIn non-linearly seperable data, the loss function will not reach 0. In our original code, because of the while loop while loss &lt; 0, we will have an infinitely running loop in the case of non-linearly seperable data. To still show that the perceptron algorithm does attempt to seperate non-linearly seperable data, we will modify the code to halt after 1000 iterations, regardless if loss ever reaches 0 or not.\nWe create a function similar to perceptron_data(), except we increase the noise in order to make a set of data that is not linearly seperable.\n\ndef not_seperable_data(n_points, noise, p_dims):\n    y = torch.arange(n_points) &gt;= int(n_points/2)\n    y = 1.0*y\n    X = y[:, None] + torch.normal(0.0, noise, size = (n_points,p_dims))\n    X = torch.cat((X, torch.ones((X.shape[0], 1))), 1)\n    \n    return X, y\n\nfig, ax = plt.subplots(1, 1, figsize = (4, 4))\nX, y = not_seperable_data(300, 0.5, 2)\nplot_perceptron_data(X,y,ax)\n\n\n\n\n\n\n\n\nThen, slightly modify the code we used previously to show how the loss function updates the hyperplane, except we change our original while loop to while iterations &lt; 1000, increment iterations by 1 after each loop, and modify the original code so that we see the percptron’s loss and hyperplane every 200 iterations.\n\np = Perceptron()\nopt = PerceptronOptimizer(p)\np.loss(X, y)\n\n# set up the figure\nplt.rcParams[\"figure.figsize\"] = (7, 5)\nfig, axarr = plt.subplots(2, 3, sharex = True, sharey = True)\nmarkers = [\"o\", \",\"]\nmarker_map = {-1 : 0, 1 : 1}\n\n# initialize for main loop\ncurrent_ax = 0\nloss = 1\nloss_vec = []\niterations = 0\nn = X.size()[0]\n\nwhile iterations &lt;= 1000:\n    ax = axarr.ravel()[current_ax]\n\n    # save the old value of w for plotting later\n    old_w = torch.clone(p.w)\n\n    # make an optimization step -- this is where the update actually happens\n    # now p.w is the new value \n\n    i = torch.randint(n, size = (1,))\n    x_i = X[[i],:]\n    y_i = y[i]\n    local_loss = p.loss(x_i, y_i).item()\n\n    if local_loss &gt; 0:\n        opt.step(x_i, y_i)\n    # if a change was made, plot the old and new decision boundaries\n    # also add the new loss to loss_vec for plotting below\n    if iterations % 200 == 0:\n        plot_perceptron_data(X, y, ax)\n        loss = p.loss(X, y).item()\n        loss_vec.append(loss)\n        draw_line(p.w, x_min = -1, x_max = 2, ax = ax, color = \"black\")\n        ax.scatter(X[i,0],X[i,1], color = \"black\", facecolors = \"none\", edgecolors = \"black\", marker = markers[marker_map[2*(y[i].item())-1]])\n        # draw_line(w, -10, 10, ax, color = \"black\")\n        ax.set_title(f\"loss = {loss:.3f} iterations = {iterations}\")\n        ax.set(xlim = (-1, 2), ylim = (-1, 2))\n        current_ax += 1\n    iterations+=1\nplt.tight_layout()"
+  },
+  {
+    "objectID": "posts/Implementing Perceptron/index.html#results",
+    "href": "posts/Implementing Perceptron/index.html#results",
+    "title": "Implementing Perceptron",
+    "section": "Results",
+    "text": "Results\nHere we see that though it could not reach 0% loss, because the data is not linearly seperable, it still did a fairly good job in finding a hyperplane that seperated the data in 1000 iterations."
+  },
+  {
+    "objectID": "posts/Implementing Perceptron/index.html#more-than-2-dimensions",
+    "href": "posts/Implementing Perceptron/index.html#more-than-2-dimensions",
+    "title": "Implementing Perceptron",
+    "section": "More than 2 Dimensions",
+    "text": "More than 2 Dimensions\nThe perceptron algorithm is able to generate hyperplanes that seperate linearly seperable data that is more than just two dimensions. Below is an example of data with 5 features which corresponds to five dimensions. In the proceeding code, we will use the perceptron_data() function used either, only now we will define 5 dimensions instead of 2.\n\nX, y = perceptron_data(300, 0.2, 5)"
+  },
+  {
+    "objectID": "posts/Implementing Perceptron/index.html#loss-evolution",
+    "href": "posts/Implementing Perceptron/index.html#loss-evolution",
+    "title": "Implementing Perceptron",
+    "section": "Loss Evolution",
+    "text": "Loss Evolution\nWe will then make a modified version of the code earlier to assess how the loss evolves through Perceptron’s iterations.\n\np = Perceptron()\nopt = PerceptronOptimizer(p)\np.loss(X, y)\n\niter_loss = []\niterations = 0\nn = X.size()[0]\n\nwhile iterations &lt;= 1000:\n     i = torch.randint(n, size = (1,))\n     x_i = X[[i],:]\n     y_i = y[i]\n     opt.step(x_i, y_i)\n\n\n     if (iterations % 200 == 0):\n          iter_loss.append(p.loss(X, y).item())\n     iterations+=1\n\nprint(iter_loss)\n\n[0.4333333373069763, 0.0033333334140479565, 0.0033333334140479565, 0.0033333334140479565, 0.05999999865889549, 0.0]"
+  },
+  {
+    "objectID": "posts/Implementing Perceptron/index.html#results-1",
+    "href": "posts/Implementing Perceptron/index.html#results-1",
+    "title": "Implementing Perceptron",
+    "section": "Results",
+    "text": "Results\nBased on the losses calcuated every 200 iterations, we can conclude from the final loss function of 0 that this set of data is indeed linearly seperable."
+  },
+  {
+    "objectID": "posts/Implementing Perceptron/index.html#perceptronoptimizer.loss-runtime-complexity",
+    "href": "posts/Implementing Perceptron/index.html#perceptronoptimizer.loss-runtime-complexity",
+    "title": "Implementing Perceptron",
+    "section": "PerceptronOptimizer.loss() Runtime Complexity",
+    "text": "PerceptronOptimizer.loss() Runtime Complexity\nThis function takes in two tensors X and y and returns a percentage. In order to do this we must call the score() function which computes the dot product of our current weight vector and all of the rows of X, corresponding to feature vectors. This score() function has us do a O(p) operation (where p is the number of features) n times (where n is the number of points or rows in X). So far our overall runtime complexity is O(n*p). After calculating the score, which multiples the each value in the score tensor to each value in the y_ tensor, evalutes whether this product is &gt; or &lt; than 0, converts the True and False values to 1’s and 0’s, sums these values, and divides it by the total number of score values. The rest of these operations listed are all linear, so our overall time complexity remains O(n*p)."
+  },
+  {
+    "objectID": "posts/Implementing Perceptron/index.html#perceptronoptimizer.grad-runtime-complexity",
+    "href": "posts/Implementing Perceptron/index.html#perceptronoptimizer.grad-runtime-complexity",
+    "title": "Implementing Perceptron",
+    "section": "PerceptronOptimizer.grad() Runtime Complexity",
+    "text": "PerceptronOptimizer.grad() Runtime Complexity\nThis function also calls the score() function, which we have previous disovered is an O(n*p) operation, and store the result in score_i. Afterwards, we perform operations on the result of score_i which we store in misclassified, and yet again perform operations on misclassified which which are returned as the function’s output. The rest of these operations are O(n), and thus our overall time complexity of this function O(n*p)."
+  },
+  {
+    "objectID": "posts/Implementing Perceptron/index.html#overall-time-complexity",
+    "href": "posts/Implementing Perceptron/index.html#overall-time-complexity",
+    "title": "Implementing Perceptron",
+    "section": "Overall Time Complexity",
+    "text": "Overall Time Complexity\nThe big-O complexity of PerceptronOptimizer.step(), because its most taxing operation had a time complexity of O(n*p), is thus O(n*p)."
   },
   {
     "objectID": "posts/Automated Decision Systems/index.html",
@@ -116,6 +179,6 @@
     "href": "index.html",
     "title": "My Awesome CSCI 0451 Blog",
     "section": "",
-    "text": "Implementing Perceptron\n\n\n\n\n\nA new blog post that I just made!\n\n\n\n\n\nMar 20, 2025\n\n\nCameron Hudson\n\n\n\n\n\n\n\n\n\n\n\n\nLimits of the Quantitative Approach to Bias and Fairness\n\n\n\n\n\nDiscussion of the efficacy of quantitative methods in evaluating the fairness of machine learning algorithms.\n\n\n\n\n\nMar 19, 2025\n\n\nCameron Hudson\n\n\n\n\n\n\n\n\n\n\n\n\nAuditing Bias\n\n\n\n\n\nUsing the PUMS dataset to predict employment and audit for racial bias.\n\n\n\n\n\nMar 12, 2025\n\n\nCameron Hudson\n\n\n\n\n\n\n\n\n\n\n\n\nDesign and Impact of Automated Decision Systems\n\n\n\n\n\nAn introduction into automated decision making systems with machine learning and their societal impacts\n\n\n\n\n\nMar 5, 2025\n\n\nCameron Hudson\n\n\n\n\n\n\n\n\n\n\n\n\nPalmer Penguins Blog Post\n\n\n\n\n\nUsing the Palmer Penguins dataset to make predictions on species of penguins\n\n\n\n\n\nFeb 20, 2025\n\n\nCameron Hudson\n\n\n\n\n\n\n\n\n\n\n\n\nTimnit Gebru\n\n\n\n\n\nA new blog post that I just made!\n\n\n\n\n\nMar 10, 2023\n\n\nPhil Chodrow\n\n\n\n\n\n\n\n\n\n\n\n\nTimnit Gebru\n\n\n\n\n\nA new blog post that I just made!\n\n\n\n\n\nMar 10, 2023\n\n\nPhil Chodrow\n\n\n\n\n\n\n\n\n\n\n\n\nSecond Post\n\n\n\n\n\nA new blog post that I just made!\n\n\n\n\n\nMar 10, 2023\n\n\nPhil Chodrow\n\n\n\n\n\n\nNo matching items"
+    "text": "Implementing Perceptron\n\n\n\n\n\nImplementing and Experimenting with the Perceptron Algorithm\n\n\n\n\n\nMar 31, 2025\n\n\nCameron Hudson\n\n\n\n\n\n\n\n\n\n\n\n\nLimits of the Quantitative Approach to Bias and Fairness\n\n\n\n\n\nDiscussion of the efficacy of quantitative methods in evaluating the fairness of machine learning algorithms.\n\n\n\n\n\nMar 19, 2025\n\n\nCameron Hudson\n\n\n\n\n\n\n\n\n\n\n\n\nAuditing Bias\n\n\n\n\n\nUsing the PUMS dataset to predict employment and audit for racial bias.\n\n\n\n\n\nMar 12, 2025\n\n\nCameron Hudson\n\n\n\n\n\n\n\n\n\n\n\n\nDesign and Impact of Automated Decision Systems\n\n\n\n\n\nAn introduction into automated decision making systems with machine learning and their societal impacts\n\n\n\n\n\nMar 5, 2025\n\n\nCameron Hudson\n\n\n\n\n\n\n\n\n\n\n\n\nPalmer Penguins Blog Post\n\n\n\n\n\nUsing the Palmer Penguins dataset to make predictions on species of penguins\n\n\n\n\n\nFeb 20, 2025\n\n\nCameron Hudson\n\n\n\n\n\n\n\n\n\n\n\n\nTimnit Gebru\n\n\n\n\n\nA new blog post that I just made!\n\n\n\n\n\nMar 10, 2023\n\n\nPhil Chodrow\n\n\n\n\n\n\n\n\n\n\n\n\nTimnit Gebru\n\n\n\n\n\nA new blog post that I just made!\n\n\n\n\n\nMar 10, 2023\n\n\nPhil Chodrow\n\n\n\n\n\n\n\n\n\n\n\n\nSecond Post\n\n\n\n\n\nA new blog post that I just made!\n\n\n\n\n\nMar 10, 2023\n\n\nPhil Chodrow\n\n\n\n\n\n\nNo matching items"
   }
 ]

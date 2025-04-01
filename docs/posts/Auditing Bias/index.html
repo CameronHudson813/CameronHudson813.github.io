@@ -970,27 +970,30 @@ background-size: cover;
 <section id="calibration" class="level1">
 <h1>Calibration</h1>
 <p>In order to show the calibration of the model, we can define a line for each group using sklearn’s <code>calibration_curve()</code> function that shows the relationship between the model’s confidence in an instance x being unemployed and the actual probability of a member of group x being unemployed in the data. The dashed line depicts the result of a perfectly calibrated model.</p>
-<div id="cell-59" class="cell" data-execution_count="71">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.calibration <span class="im">import</span> calibration_curve</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>prob_true, prob_pred <span class="op">=</span> calibration_curve(y_test[group_test <span class="op">==</span> <span class="dv">1</span>], y_hat[group_test <span class="op">==</span> <span class="dv">1</span>], n_bins<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>plt.plot(prob_pred, prob_true)</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [<span class="dv">0</span>, <span class="dv">1</span>], linestyle<span class="op">=</span><span class="st">'--'</span>)</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Predicted Probability'</span>)</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'True Probability'</span>)</span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Calibration Plot'</span>)</span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>prob_true, prob_pred <span class="op">=</span> calibration_curve(y_test[group_test <span class="op">==</span> <span class="dv">2</span>], y_hat[group_test <span class="op">==</span> <span class="dv">2</span>], n_bins<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>plt.plot(prob_pred, prob_true)</span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>prob_true, prob_pred <span class="op">=</span> calibration_curve(y_test[group_test <span class="op">&gt;=</span> <span class="dv">3</span>], y_hat[group_test <span class="op">&gt;=</span> <span class="dv">3</span>], n_bins<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>plt.plot(prob_pred, prob_true)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-59" class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-60" class="cell" data-execution_count="71">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.calibration <span class="im">import</span> calibration_curve</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>prob_true, prob_pred <span class="op">=</span> calibration_curve(y_test[group_test <span class="op">==</span> <span class="dv">1</span>], y_hat[group_test <span class="op">==</span> <span class="dv">1</span>], n_bins<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>plt.plot(prob_pred, prob_true)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [<span class="dv">0</span>, <span class="dv">1</span>], linestyle<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Predicted Probability'</span>)</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'True Probability'</span>)</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Calibration Plot'</span>)</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>prob_true, prob_pred <span class="op">=</span> calibration_curve(y_test[group_test <span class="op">==</span> <span class="dv">2</span>], y_hat[group_test <span class="op">==</span> <span class="dv">2</span>], n_bins<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>plt.plot(prob_pred, prob_true)</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>prob_true, prob_pred <span class="op">=</span> calibration_curve(y_test[group_test <span class="op">&gt;=</span> <span class="dv">3</span>], y_hat[group_test <span class="op">&gt;=</span> <span class="dv">3</span>], n_bins<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>plt.plot(prob_pred, prob_true)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/cell-24-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="index_files/figure-html/cell-25-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1003,23 +1006,23 @@ background-size: cover;
 <section id="error-rate-balance" class="level1">
 <h1>Error Rate Balance</h1>
 <p>To answer question 2, we must see if the true positive and false positive rates between the three groups are roughly equal. As we have done before, we display a dataframe that will allow us to analyze the relationship of the true postive and false positive rates between groups. Because we have already computed the false positive rate for each group, we only need to compute the true positive rate.</p>
-<div id="cell-63" class="cell" data-execution_count="67">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>white_confusion_array <span class="op">=</span> confusion_matrix((y_test[group_test <span class="op">==</span> <span class="dv">1</span>]), y_hat[group_test <span class="op">==</span> <span class="dv">1</span>])  </span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>black_confusion_array <span class="op">=</span> confusion_matrix((y_test[group_test <span class="op">==</span> <span class="dv">2</span>]), y_hat[group_test <span class="op">==</span> <span class="dv">2</span>])</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>other_confusion_array <span class="op">=</span> confusion_matrix((y_test[group_test <span class="op">==</span> <span class="dv">3</span>]), y_hat[group_test <span class="op">==</span> <span class="dv">3</span>])</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>white_TPR <span class="op">=</span> white_confusion_array[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">/</span> (white_confusion_array[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">+</span> white_confusion_array[<span class="dv">1</span>][<span class="dv">0</span>])</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>black_TPR <span class="op">=</span> black_confusion_array[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">/</span> (black_confusion_array[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">+</span> black_confusion_array[<span class="dv">1</span>][<span class="dv">0</span>])</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>other_TPR <span class="op">=</span> other_confusion_array[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">/</span> (other_confusion_array[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">+</span> other_confusion_array[<span class="dv">1</span>][<span class="dv">0</span>])</span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>group_TPR <span class="op">=</span> pd.Series({<span class="st">"white"</span>: white_TPR,<span class="st">"black"</span>: black_TPR, <span class="st">"other"</span>: other_TPR})</span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>group_TPR_FPR_df <span class="op">=</span> pd.DataFrame({<span class="st">"TPR"</span>: group_TPR, <span class="st">"FPR"</span>: group_FPR})</span>
-<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>group_TPR_FPR_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-64" class="cell" data-execution_count="67">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>white_confusion_array <span class="op">=</span> confusion_matrix((y_test[group_test <span class="op">==</span> <span class="dv">1</span>]), y_hat[group_test <span class="op">==</span> <span class="dv">1</span>])  </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>black_confusion_array <span class="op">=</span> confusion_matrix((y_test[group_test <span class="op">==</span> <span class="dv">2</span>]), y_hat[group_test <span class="op">==</span> <span class="dv">2</span>])</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>other_confusion_array <span class="op">=</span> confusion_matrix((y_test[group_test <span class="op">==</span> <span class="dv">3</span>]), y_hat[group_test <span class="op">==</span> <span class="dv">3</span>])</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>white_TPR <span class="op">=</span> white_confusion_array[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">/</span> (white_confusion_array[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">+</span> white_confusion_array[<span class="dv">1</span>][<span class="dv">0</span>])</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>black_TPR <span class="op">=</span> black_confusion_array[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">/</span> (black_confusion_array[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">+</span> black_confusion_array[<span class="dv">1</span>][<span class="dv">0</span>])</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>other_TPR <span class="op">=</span> other_confusion_array[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">/</span> (other_confusion_array[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">+</span> other_confusion_array[<span class="dv">1</span>][<span class="dv">0</span>])</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>group_TPR <span class="op">=</span> pd.Series({<span class="st">"white"</span>: white_TPR,<span class="st">"black"</span>: black_TPR, <span class="st">"other"</span>: other_TPR})</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>group_TPR_FPR_df <span class="op">=</span> pd.DataFrame({<span class="st">"TPR"</span>: group_TPR, <span class="st">"FPR"</span>: group_FPR})</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>group_TPR_FPR_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="67">
 <div>
 
@@ -1059,13 +1062,13 @@ background-size: cover;
 <section id="statistical-parity" class="level1">
 <h1>Statistical Parity</h1>
 <p>To answer question 3 and evaluate the model for statistical parity, we must evaluate if the probability of positive prediction (this person is predicted to be employed) is the same across the different groups (black, white, other).</p>
-<div id="cell-67" class="cell" data-execution_count="68">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>prob_white <span class="op">=</span> X_test[(group_test <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (y_hat <span class="op">==</span> <span class="dv">1</span>)].shape[<span class="dv">0</span>] <span class="op">/</span> X_test[group_test <span class="op">==</span> <span class="dv">1</span>].shape[<span class="dv">0</span>] </span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>prob_black <span class="op">=</span> X_test[(group_test <span class="op">==</span> <span class="dv">2</span>) <span class="op">&amp;</span> (y_hat <span class="op">==</span> <span class="dv">1</span>)].shape[<span class="dv">0</span>] <span class="op">/</span> X_test[group_test <span class="op">==</span> <span class="dv">2</span>].shape[<span class="dv">0</span>] </span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>prob_other <span class="op">=</span> X_test[(group_test <span class="op">&gt;=</span> <span class="dv">3</span>) <span class="op">&amp;</span> (y_hat <span class="op">==</span> <span class="dv">1</span>)].shape[<span class="dv">0</span>] <span class="op">/</span> X_test[group_test <span class="op">&gt;=</span> <span class="dv">3</span>].shape[<span class="dv">0</span>] </span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>prob_series <span class="op">=</span> pd.Series({<span class="st">"white"</span>: prob_white, <span class="st">"black"</span>: prob_black, <span class="st">"other"</span>: prob_other})</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>prob_df <span class="op">=</span> pd.DataFrame(prob_series, columns<span class="op">=</span>[<span class="st">"Probability of Employed Prediction"</span>])</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>prob_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-68" class="cell" data-execution_count="68">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>prob_white <span class="op">=</span> X_test[(group_test <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (y_hat <span class="op">==</span> <span class="dv">1</span>)].shape[<span class="dv">0</span>] <span class="op">/</span> X_test[group_test <span class="op">==</span> <span class="dv">1</span>].shape[<span class="dv">0</span>] </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>prob_black <span class="op">=</span> X_test[(group_test <span class="op">==</span> <span class="dv">2</span>) <span class="op">&amp;</span> (y_hat <span class="op">==</span> <span class="dv">1</span>)].shape[<span class="dv">0</span>] <span class="op">/</span> X_test[group_test <span class="op">==</span> <span class="dv">2</span>].shape[<span class="dv">0</span>] </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>prob_other <span class="op">=</span> X_test[(group_test <span class="op">&gt;=</span> <span class="dv">3</span>) <span class="op">&amp;</span> (y_hat <span class="op">==</span> <span class="dv">1</span>)].shape[<span class="dv">0</span>] <span class="op">/</span> X_test[group_test <span class="op">&gt;=</span> <span class="dv">3</span>].shape[<span class="dv">0</span>] </span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>prob_series <span class="op">=</span> pd.Series({<span class="st">"white"</span>: prob_white, <span class="st">"black"</span>: prob_black, <span class="st">"other"</span>: prob_other})</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>prob_df <span class="op">=</span> pd.DataFrame(prob_series, columns<span class="op">=</span>[<span class="st">"Probability of Employed Prediction"</span>])</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>prob_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="68">
 <div>
 
@@ -1098,48 +1101,48 @@ background-size: cover;
 </div>
 <p>We can see here that model does not pass the test of statistical parity, as the <code>black</code> and <code>other</code> groups have roughly the same percentage, however the <code>white</code> group is ahead of both by roughly 7 percent.</p>
 <p>We will conclude our visual demonstration of the fairness of this model by showing the relationship between the FPR and FNR of each group as well as the possible FNR and FPR values, depicted by lines showing the relationship between the FPR and FNR.</p>
-<div id="cell-70" class="cell" data-execution_count="69">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> pyplot</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co">#FPR and FNR for each group</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>FPR_groups <span class="op">=</span> [white_FPR, black_FPR, other_FPR]</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>FNR_groups <span class="op">=</span> [white_FNR, black_FNR, other_FNR]</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="co">#prevalance percentage for each group</span></span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>white_p <span class="op">=</span> X_test[(group_test <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (y_test <span class="op">==</span> <span class="dv">1</span>)].shape[<span class="dv">0</span>] <span class="op">/</span> X_test[group_test <span class="op">==</span> <span class="dv">1</span>].shape[<span class="dv">0</span>]</span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>black_p <span class="op">=</span> X_test[(group_test <span class="op">==</span> <span class="dv">2</span>) <span class="op">&amp;</span> (y_test <span class="op">==</span> <span class="dv">1</span>)].shape[<span class="dv">0</span>] <span class="op">/</span> X_test[group_test <span class="op">==</span> <span class="dv">2</span>].shape[<span class="dv">0</span>]</span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>other_p <span class="op">=</span> X_test[(group_test <span class="op">&gt;=</span> <span class="dv">3</span>) <span class="op">&amp;</span> (y_test <span class="op">==</span> <span class="dv">1</span>)].shape[<span class="dv">0</span>] <span class="op">/</span> X_test[group_test <span class="op">&gt;=</span> <span class="dv">3</span>].shape[<span class="dv">0</span>]</span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Calibrating model </span></span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>group_PPV <span class="op">=</span> <span class="bu">min</span>(white_PPV, black_PPV, other_PPV)</span>
-<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a><span class="co">#line of feasible FPR and FNR values for each group</span></span>
-<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>fnr_values <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
-<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>white_fpr_values <span class="op">=</span> (white_p <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> white_p)) <span class="op">*</span> ((<span class="dv">1</span> <span class="op">-</span> group_PPV) <span class="op">/</span> group_PPV) <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> fnr_values)</span>
-<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>black_fpr_values <span class="op">=</span> (black_p <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> black_p)) <span class="op">*</span> ((<span class="dv">1</span> <span class="op">-</span> group_PPV) <span class="op">/</span> group_PPV) <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> fnr_values)</span>
-<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>other_fpr_values <span class="op">=</span> (other_p <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> other_p)) <span class="op">*</span> ((<span class="dv">1</span> <span class="op">-</span> group_PPV) <span class="op">/</span> group_PPV) <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> fnr_values)</span>
-<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>pyplot.figure(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">5</span>))</span>
-<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>pyplot.title(<span class="st">"Feasible (FNR, FPR) combinations"</span>)</span>
-<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>pyplot.xlim(<span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>pyplot.xlabel(<span class="st">"False Negative Rate"</span>)</span>
-<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>pyplot.ylim(<span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a>pyplot.ylabel(<span class="st">"False Positive Rate"</span>)</span>
-<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-29"><a href="#cb35-29" aria-hidden="true" tabindex="-1"></a>group_labels <span class="op">=</span> [<span class="st">"White"</span>, <span class="st">"Black"</span>, <span class="st">"Other"</span>]</span>
-<span id="cb35-30"><a href="#cb35-30" aria-hidden="true" tabindex="-1"></a>palette <span class="op">=</span> {<span class="st">"White"</span>: <span class="st">"yellow"</span>, <span class="st">"Black"</span>: <span class="st">"black"</span>, <span class="st">"Other"</span>: <span class="st">"red"</span>}</span>
-<span id="cb35-31"><a href="#cb35-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-32"><a href="#cb35-32" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>FNR_groups, y<span class="op">=</span>FPR_groups, hue <span class="op">=</span> group_labels, palette<span class="op">=</span>palette)</span>
-<span id="cb35-33"><a href="#cb35-33" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x<span class="op">=</span>fnr_values, y <span class="op">=</span> white_fpr_values, color<span class="op">=</span><span class="st">"yellow"</span>)</span>
-<span id="cb35-34"><a href="#cb35-34" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x<span class="op">=</span>fnr_values, y <span class="op">=</span> black_fpr_values, color<span class="op">=</span><span class="st">"black"</span>)</span>
-<span id="cb35-35"><a href="#cb35-35" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x<span class="op">=</span>fnr_values, y <span class="op">=</span> other_fpr_values, color<span class="op">=</span><span class="st">"red"</span>)</span>
-<span id="cb35-36"><a href="#cb35-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-37"><a href="#cb35-37" aria-hidden="true" tabindex="-1"></a>pyplot.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-71" class="cell" data-execution_count="69">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> pyplot</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co">#FPR and FNR for each group</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>FPR_groups <span class="op">=</span> [white_FPR, black_FPR, other_FPR]</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>FNR_groups <span class="op">=</span> [white_FNR, black_FNR, other_FNR]</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="co">#prevalance percentage for each group</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>white_p <span class="op">=</span> X_test[(group_test <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (y_test <span class="op">==</span> <span class="dv">1</span>)].shape[<span class="dv">0</span>] <span class="op">/</span> X_test[group_test <span class="op">==</span> <span class="dv">1</span>].shape[<span class="dv">0</span>]</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>black_p <span class="op">=</span> X_test[(group_test <span class="op">==</span> <span class="dv">2</span>) <span class="op">&amp;</span> (y_test <span class="op">==</span> <span class="dv">1</span>)].shape[<span class="dv">0</span>] <span class="op">/</span> X_test[group_test <span class="op">==</span> <span class="dv">2</span>].shape[<span class="dv">0</span>]</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>other_p <span class="op">=</span> X_test[(group_test <span class="op">&gt;=</span> <span class="dv">3</span>) <span class="op">&amp;</span> (y_test <span class="op">==</span> <span class="dv">1</span>)].shape[<span class="dv">0</span>] <span class="op">/</span> X_test[group_test <span class="op">&gt;=</span> <span class="dv">3</span>].shape[<span class="dv">0</span>]</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Calibrating model </span></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>group_PPV <span class="op">=</span> <span class="bu">min</span>(white_PPV, black_PPV, other_PPV)</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a><span class="co">#line of feasible FPR and FNR values for each group</span></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>fnr_values <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>white_fpr_values <span class="op">=</span> (white_p <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> white_p)) <span class="op">*</span> ((<span class="dv">1</span> <span class="op">-</span> group_PPV) <span class="op">/</span> group_PPV) <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> fnr_values)</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>black_fpr_values <span class="op">=</span> (black_p <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> black_p)) <span class="op">*</span> ((<span class="dv">1</span> <span class="op">-</span> group_PPV) <span class="op">/</span> group_PPV) <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> fnr_values)</span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>other_fpr_values <span class="op">=</span> (other_p <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> other_p)) <span class="op">*</span> ((<span class="dv">1</span> <span class="op">-</span> group_PPV) <span class="op">/</span> group_PPV) <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> fnr_values)</span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>pyplot.figure(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">5</span>))</span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>pyplot.title(<span class="st">"Feasible (FNR, FPR) combinations"</span>)</span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>pyplot.xlim(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>pyplot.xlabel(<span class="st">"False Negative Rate"</span>)</span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>pyplot.ylim(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a>pyplot.ylabel(<span class="st">"False Positive Rate"</span>)</span>
+<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-29"><a href="#cb36-29" aria-hidden="true" tabindex="-1"></a>group_labels <span class="op">=</span> [<span class="st">"White"</span>, <span class="st">"Black"</span>, <span class="st">"Other"</span>]</span>
+<span id="cb36-30"><a href="#cb36-30" aria-hidden="true" tabindex="-1"></a>palette <span class="op">=</span> {<span class="st">"White"</span>: <span class="st">"yellow"</span>, <span class="st">"Black"</span>: <span class="st">"black"</span>, <span class="st">"Other"</span>: <span class="st">"red"</span>}</span>
+<span id="cb36-31"><a href="#cb36-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-32"><a href="#cb36-32" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>FNR_groups, y<span class="op">=</span>FPR_groups, hue <span class="op">=</span> group_labels, palette<span class="op">=</span>palette)</span>
+<span id="cb36-33"><a href="#cb36-33" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x<span class="op">=</span>fnr_values, y <span class="op">=</span> white_fpr_values, color<span class="op">=</span><span class="st">"yellow"</span>)</span>
+<span id="cb36-34"><a href="#cb36-34" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x<span class="op">=</span>fnr_values, y <span class="op">=</span> black_fpr_values, color<span class="op">=</span><span class="st">"black"</span>)</span>
+<span id="cb36-35"><a href="#cb36-35" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x<span class="op">=</span>fnr_values, y <span class="op">=</span> other_fpr_values, color<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb36-36"><a href="#cb36-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-37"><a href="#cb36-37" aria-hidden="true" tabindex="-1"></a>pyplot.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/cell-27-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="index_files/figure-html/cell-28-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
