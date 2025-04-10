@@ -1,5 +1,4 @@
 import torch
-import math
 
 torch.manual_seed(1234)
 
@@ -40,7 +39,7 @@ class LinearModel:
         """
         
         if self.w is None: 
-            self.w = torch.rand((X.size()[1]))
+            self.w = torch.rand(X.size()[1])
         return X@self.w
 
     def predict(self, X):
@@ -92,7 +91,6 @@ class PerceptronOptimizer:
 
     def __init__(self, model):
         self.model = model 
-        self.prev_weight = None
     
     def step(self, X, y):
         """
@@ -103,17 +101,15 @@ class PerceptronOptimizer:
         self.model.w -= self.model.grad(X,y)[0]
 
 class LogisticRegression(LinearModel):
-    #No idea if this is correct or not...
 
     def loss(self, X, y):
         # weight vector instance variable
         scores = self.score(X)
         sigmoids = torch.sigmoid(scores)
-        #vectorized operation right?
         loss_vector = ((-y*torch.log(sigmoids))-((1-y)*torch.log(1-sigmoids)))
 
-        return loss_vector.mean()
-    #Gradient of this then becomes the partial derivative stuff of the loss function
+        return loss_vector.nanmean()
+        
     def grad(self, X, y):
         scores = self.score(X)
         sigmoids = torch.sigmoid(scores)
@@ -121,6 +117,10 @@ class LogisticRegression(LinearModel):
         return (X.T @ error) / X.shape[0]
 
 class GradientDescentOptimizer:
+
+    def __init__(self, model):
+        self.model = model
+        self.w_prev = None
 
     def step(self, X, y, alpha, beta):
         if self.model.w is None:
