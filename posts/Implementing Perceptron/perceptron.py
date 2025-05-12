@@ -1,4 +1,5 @@
 import torch
+import numpy as np
 
 torch.manual_seed(1234)
 
@@ -79,12 +80,21 @@ class Perceptron(LinearModel):
         y_ = 2 * y - 1
         scores = self.score(X)
         return (scores * y_ < 0).float().sum() / scores.numel()
+    # #Normal approach
+    # def grad(self, X, y):
+    #     score_i = self.score(X) 
+    #     misclassified = score_i * (2*y - 1) < 0 
 
+    #     return (-1 * misclassified) * ((2*y - 1) * X)
+    # Minibatch implementation
     def grad(self, X, y):
-        score_i = self.score(X) 
-        misclassified = score_i * (2*y - 1) < 0 
-
-        return (-1 * misclassified) * ((2*y - 1) * X)
+        # I believe my x is an array within an array
+        y_ = 2*y - 1
+        scores = self.score(X)
+        misclassified = (scores * y_ < 0).float()
+        grads = (misclassified * y_).unsqueeze(1) * X
+        return grads.sum(dim=0)
+        
 
 
 class PerceptronOptimizer:
@@ -92,10 +102,18 @@ class PerceptronOptimizer:
     def __init__(self, model):
         self.model = model 
     
-    def step(self, X, y):
+    # def step(self, X, y):
+    #     """
+    #     Compute one step of the perceptron update using the feature matrix X 
+    #     and target vector y. 
+    #     """
+    #     self.model.loss(X, y)
+    #     self.model.w -= self.model.grad(X,y)[0]
+    # minibatch implementation
+    def step(self, X, y, alpha, k):
         """
         Compute one step of the perceptron update using the feature matrix X 
         and target vector y. 
         """
         self.model.loss(X, y)
-        self.model.w -= self.model.grad(X,y)[0]
+        self.model.w -= (alpha/k) * self.model.grad(X,y) #possibly need to keep this

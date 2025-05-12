@@ -37,7 +37,6 @@ class LinearModel:
         RETURNS: 
             s torch.Tensor: vector of scores. s.size() = (n,)
         """
-        
         if self.w is None: 
             self.w = torch.rand(X.size()[1])
         return X@self.w
@@ -83,7 +82,6 @@ class Perceptron(LinearModel):
     def grad(self, X, y):
         score_i = self.score(X) 
         misclassified = score_i * (2*y - 1) < 0 
-
         return (-1 * misclassified) * ((2*y - 1) * X)
 
 
@@ -103,18 +101,42 @@ class PerceptronOptimizer:
 class LogisticRegression(LinearModel):
 
     def loss(self, X, y):
-        # weight vector instance variable
+        """
+        Computes the binary cross-entropy loss for logistic regression using sigmoid activation.
+
+        This loss measures the difference between predicted probabilities and true binary labels.
+        The sigmoid function converts raw model scores to probabilities. To ensure numerical stability,
+        the output of the sigmoid is clamped to avoid exactly 0 or 1, preventing undefined values
+        in the logarithm computation (log(0) = NaN or log(1) = inf).
+
+        Args:
+            X (torch.Tensor): feature matrix of shape (n, p), where N is number of samples.
+            y (torch.Tensor): Binary target labels of shape (n,) with values 0 or 1.
+
+        Returns:
+            torch.Tensor: Mean binary cross-entropy loss across the batch.
+        """
         scores = self.score(X)
         sigmoids = torch.sigmoid(scores)
-        loss_vector = ((-y*torch.log(sigmoids))-((1-y)*torch.log(1-sigmoids)))
-
-        return loss_vector.nanmean()
-        
+        sigmoids = torch.clamp(sigmoids, min=1e-7, max=1-1e-7)
+        loss_vector = (-y * torch.log(sigmoids)) - ((1-y) * torch.log(1-sigmoids))
+        return loss_vector.mean()
+    
     def grad(self, X, y):
+        """
+        Computes the gradient of the binary cross-entropy loss with respect to model weights.
+
+        Args:
+            X (torch.Tensor): Input features of shape (n, p).
+            y (torch.Tensor): Binary target labels of shape (n,).
+
+        Returns:
+            torch.Tensor: Gradient of the loss with respect to the model's weights, shape (p,).
+        """
         scores = self.score(X)
         sigmoids = torch.sigmoid(scores)
         error = sigmoids - y
-        return (X.T @ error) / X.shape[0]
+        return  (X.T @ error) / X.shape[0]
 
 class GradientDescentOptimizer:
 
@@ -123,6 +145,16 @@ class GradientDescentOptimizer:
         self.w_prev = None
 
     def step(self, X, y, alpha, beta):
+        """
+        Performs one gradient descent step to update the model's weights.
+
+        Args:
+            X (torch.Tensor): Input features of shape (n, p).
+            y (torch.Tensor): Binary target labels of shape (n,) 
+            alpha (float): Learning rate 
+            beta (float): Momentum factor (0 = no momentum).
+        """
+     
         if self.model.w is None:
             self.model.score(X)  # initializes self.model.w
 
@@ -136,7 +168,3 @@ class GradientDescentOptimizer:
         self.w_prev = self.model.w.clone()
         self.model.w = w_new
         
-
-
-        
-
