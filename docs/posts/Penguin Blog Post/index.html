@@ -391,9 +391,15 @@ Class number 1 represents Chinstrap penguin (Pygoscelis antarctica) penguins.
 Class number 2 represents Gentoo penguin (Pygoscelis papua) penguins.</code></pre>
 </div>
 </div>
+</section>
+<section id="labelencoder" class="level1">
+<h1>LabelEncoder</h1>
 <p>Here, we also enumerated through the classes made by the LabelEncoder and used a fstring to cleanly show which number encoding referes to which penguin.</p>
+</section>
+<section id="data-preperation-results" class="level1">
+<h1>Data Preperation Results</h1>
 <p>Now we can see that we have removed unnessecary columns, dropped rows with empty values, and changed qualitative columns to columns of True or False (1 or 0) values:</p>
-<div id="cell-10" class="cell" data-execution_count="86">
+<div id="cell-12" class="cell" data-execution_count="86">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>X_train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="86">
 <div>
@@ -515,7 +521,7 @@ Class number 2 represents Gentoo penguin (Pygoscelis papua) penguins.</code></pr
 <section id="data-visualizations" class="level1">
 <h1>Data Visualizations</h1>
 <p>Here we are going to visualize the relationship between some quantative data to get a feel for what features might be useful for our predictor model.</p>
-<div id="cell-12" class="cell" data-execution_count="113">
+<div id="cell-14" class="cell" data-execution_count="113">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>le.classes_ <span class="op">=</span> [<span class="st">"Adelie"</span>, <span class="st">"Chinstrap"</span>, <span class="st">"Gentoo"</span>]</span>
@@ -534,7 +540,7 @@ Class number 2 represents Gentoo penguin (Pygoscelis papua) penguins.</code></pr
 </div>
 </div>
 <p>Here we can see that the relationship between Flipper Length and Body Mass is good for distinguishing between Gentoo penguins and the other two species (data shows that Gentoo penugins on average have a greater body mass and flipper length than the two other species), however it is not so good for dintinguishing between the Adelie and Chinstrap penguin species.</p>
-<div id="cell-14" class="cell" data-execution_count="114">
+<div id="cell-16" class="cell" data-execution_count="114">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize <span class="op">=</span> (<span class="dv">8</span>, <span class="fl">3.5</span>))</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> sns.scatterplot(X_train, x <span class="op">=</span> <span class="st">"Culmen Length (mm)"</span>, y <span class="op">=</span> <span class="st">"Flipper Length (mm)"</span>, ax <span class="op">=</span> ax[<span class="dv">0</span>], color <span class="op">=</span> <span class="st">"darkgrey"</span>)</span>
@@ -552,7 +558,7 @@ Class number 2 represents Gentoo penguin (Pygoscelis papua) penguins.</code></pr
 <section id="summary-tables-and-aggregate-values" class="level1">
 <h1>Summary Tables and Aggregate Values</h1>
 <p>Beyond plotting which is good for visualizing quantiative features and there usefulness, we can use aggregate values to gain more information on quantiative features such as sex, island, and clutch completion.</p>
-<div id="cell-17" class="cell" data-execution_count="89">
+<div id="cell-19" class="cell" data-execution_count="89">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>train.groupby(<span class="st">"Clutch Completion"</span>).size() <span class="op">/</span> X_train.shape[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="89">
 <pre><code>Clutch Completion
@@ -561,7 +567,7 @@ Yes    0.957031
 dtype: float64</code></pre>
 </div>
 </div>
-<div id="cell-18" class="cell" data-execution_count="90">
+<div id="cell-20" class="cell" data-execution_count="90">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>train.groupby(<span class="st">"Sex"</span>).size() <span class="op">/</span> X_train.shape[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="90">
 <pre><code>Sex
@@ -571,7 +577,7 @@ MALE      0.511719
 dtype: float64</code></pre>
 </div>
 </div>
-<div id="cell-19" class="cell" data-execution_count="91">
+<div id="cell-21" class="cell" data-execution_count="91">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>train.groupby(<span class="st">"Island"</span>).size() <span class="op">/</span> X_train.shape[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="91">
 <pre><code>Island
@@ -581,12 +587,15 @@ Torgersen    0.164062
 dtype: float64</code></pre>
 </div>
 </div>
+</section>
+<section id="summary-table-findings" class="level1">
+<h1>Summary Table Findings</h1>
 <p>Here we can see the percentage of all the penguins split between the various qualitative features (Sex, Island, and Clutch Completion). With this we can see that clutch completion will probably not help us determine the species of a particular penguin as for 95% of the penguins in the dataset Clutch_Completion is true. On the other hand, it seems that half of the penguins are male and the other half female, and that a penguin’s location on one of the three islands is also quite varied, making these qualiative features more useful for predictions than cluch completion.</p>
 </section>
 <section id="feature-selection" class="level1">
 <h1>Feature Selection</h1>
 <p>Our current task now is to find three of these features listed where 2 are quantiative and 1 are quantitative that will predict with high accuracy the species of Penguin (either Gentoo, Chinstrap, or Adelie).</p>
-<div id="cell-22" class="cell" data-execution_count="92">
+<div id="cell-25" class="cell" data-execution_count="92">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(X_train.columns)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Index(['Culmen Length (mm)', 'Culmen Depth (mm)', 'Flipper Length (mm)',
@@ -598,7 +607,7 @@ dtype: float64</code></pre>
 </div>
 </div>
 <p>Because we have a relatively small amount of features, we are going to train a logistic regression model on every distinct combination of 2 quantitative feautures and 1 qualitative feature, and keep track in the variable max_score what combination of features (stored in best_features) achieves the highest acurracy.</p>
-<div id="cell-24" class="cell" data-execution_count="100">
+<div id="cell-27" class="cell" data-execution_count="100">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> combinations</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -632,7 +641,7 @@ dtype: float64</code></pre>
 <section id="testing-the-model-on-unseen-data" class="level1">
 <h1>Testing the model on unseen data</h1>
 <p>We have achieved high accuracy using the training data, but can we achieve similar results using a different subset of data?</p>
-<div id="cell-27" class="cell" data-execution_count="94">
+<div id="cell-30" class="cell" data-execution_count="94">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>test_url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/PhilChodrow/ml-notes/main/data/palmer-penguins/test.csv"</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> pd.read_csv(test_url)</span>
@@ -648,7 +657,7 @@ dtype: float64</code></pre>
 <section id="plotting-decision-regions" class="level1">
 <h1>Plotting Decision Regions</h1>
 <p>We can more explicitly display how our model is deciding the species of penguins with our selected features with this plot_regions function.</p>
-<div id="cell-30" class="cell" data-execution_count="103">
+<div id="cell-33" class="cell" data-execution_count="103">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Patch</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_regions(model, X, y):</span>
@@ -702,7 +711,7 @@ dtype: float64</code></pre>
 <span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a>      plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We are first going to run this using the training data:</p>
-<div id="cell-32" class="cell" data-execution_count="104">
+<div id="cell-35" class="cell" data-execution_count="104">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>plot_regions(LR, X_train[best_features], y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -713,7 +722,7 @@ dtype: float64</code></pre>
 </div>
 </div>
 <p>Then, we are going to run it through the testing data:</p>
-<div id="cell-34" class="cell" data-execution_count="105">
+<div id="cell-37" class="cell" data-execution_count="105">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>plot_regions(LR, X_test[best_features], y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -728,7 +737,7 @@ dtype: float64</code></pre>
 <section id="confusion-matrix" class="level1">
 <h1>Confusion Matrix</h1>
 <p>Using the confusion_matrix function from sklearn, we can create a matrix that shows the accurate and inaccurate predictions of our model.</p>
-<div id="cell-37" class="cell" data-execution_count="99">
+<div id="cell-40" class="cell" data-execution_count="99">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>y_test_pred <span class="op">=</span> LR.predict(X_test[best_features],)</span>
@@ -740,8 +749,11 @@ dtype: float64</code></pre>
        [ 0,  0, 26]])</code></pre>
 </div>
 </div>
+</section>
+<section id="confusion-matrix-interpretation" class="level1">
+<h1>Confusion Matrix Interpretation</h1>
 <p>Here, on the diagonal of the matrix is the correct guesses, with each row corresponding to each possible label prediction (Chinstrap, Adelie, or Gentoo). We can make the output of our confusion matrix more appearent by returning to our LabelEncoder and looping through its contents:</p>
-<div id="cell-39" class="cell" data-execution_count="67">
+<div id="cell-43" class="cell" data-execution_count="67">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"There were </span><span class="sc">{</span>C[i,j]<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>le<span class="sc">.</span>classes_[i]<span class="sc">}</span><span class="ss"> penguin(s) who were classified as </span><span class="sc">{</span>le<span class="sc">.</span>classes_[j]<span class="sc">}</span><span class="ss">."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -757,6 +769,9 @@ There were 0 Gentoo penguin (Pygoscelis papua) penguin(s) who were classified as
 There were 26 Gentoo penguin (Pygoscelis papua) penguin(s) who were classified as Gentoo penguin (Pygoscelis papua).</code></pre>
 </div>
 </div>
+</section>
+<section id="confusion-matrix-results-and-findings" class="level1">
+<h1>Confusion Matrix Results and Findings</h1>
 <p>We can see that the only error the model made on the testing data was that it misidentified a Chinstrap penguin for a Gentoo penguin. This correlates with the plot_regions output using the training data, as the points that represent Chinstrap penguins were often close or in the region that predicts a penguin will be a Gentoo penguin.</p>
 </section>
 <section id="closing" class="level1">

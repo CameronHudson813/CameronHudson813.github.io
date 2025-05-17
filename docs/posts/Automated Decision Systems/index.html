@@ -219,15 +219,15 @@ background-size: cover;
 <section id="grabbing-and-observing-the-data" class="level1">
 <h1>Grabbing and Observing the Data</h1>
 <p>First we import the dataset that includes previous borrowers:</p>
-<div id="cell-4" class="cell" data-execution_count="204">
+<div id="cell-4" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/PhilChodrow/ml-notes/main/data/credit-risk/train.csv"</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>With <code>df.head()</code> we can see the features that are associated with each borrower:</p>
-<div id="cell-6" class="cell" data-execution_count="205">
+<div id="cell-6" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="205">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
 
@@ -335,9 +335,9 @@ background-size: cover;
 <section id="base-rates" class="level1">
 <h1>Base Rates</h1>
 <p>To demonstrate that our machine learning model has indeed derived a pattern from the training data, we will try to achieve an accuracy above the base rate. The base rate is the accuracy that we can achieve if we predict one outcome for every possible decision.</p>
-<div id="cell-9" class="cell" data-execution_count="206">
+<div id="cell-9" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="op">-</span>df[<span class="st">"loan_status"</span>].mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="206">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>np.float64(0.7824201964395334)</code></pre>
 </div>
 </div>
@@ -350,14 +350,14 @@ background-size: cover;
 </section>
 <section id="summary-table" class="level1">
 <h1>Summary Table</h1>
-<div id="cell-15" class="cell" data-execution_count="207">
+<div id="cell-15" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>summary_table <span class="op">=</span> df.groupby(<span class="st">"person_home_ownership"</span>).agg({</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"loan_amnt"</span>: <span class="st">"mean"</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"loan_int_rate"</span>: <span class="st">"mean"</span>,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"loan_status"</span>: <span class="st">"mean"</span> </span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>summary_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="207">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
 
@@ -414,7 +414,7 @@ background-size: cover;
 </section>
 <section id="scatterplot-1-using-loan_amnt-and-loan_int_rate" class="level1">
 <h1>Scatterplot 1 using <code>loan_amnt</code> and <code>loan_int_rate</code></h1>
-<div id="cell-18" class="cell" data-execution_count="208">
+<div id="cell-18" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -436,7 +436,7 @@ background-size: cover;
 </section>
 <section id="scatter-plot-2-using-cb_person_default_on_file" class="level1">
 <h1>Scatter plot 2 using <code>cb_person_default_on_file</code></h1>
-<div id="cell-22" class="cell" data-execution_count="209">
+<div id="cell-22" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -463,7 +463,7 @@ background-size: cover;
 <section id="data-processing" class="level1">
 <h1>Data Processing</h1>
 <p>Our first step to processing the data to be trained is to drop unnessecary rows and columns. In this instance, we must drop all rows that do not contain a value for one of their columns, as well as our target variable loan status and loan grade. We use <code>X = pd.get_dummies(X)</code> to hot encode our categorical features such as <code>loan_intent</code>, <code>person_home_ownership</code>, and <code>cb_person_default_on_file</code>, store our target variable in the variable <code>y</code>, and use sklearn’s <code>train_test_split</code> to split the data into training and testing data for cross validation.</p>
-<div id="cell-27" class="cell" data-execution_count="210">
+<div id="cell-27" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> prepare_data(df):    </span>
@@ -476,7 +476,7 @@ background-size: cover;
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>X_train</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="210">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 
 
@@ -759,7 +759,7 @@ background-size: cover;
 <section id="picking-the-features-and-fitting-the-model" class="level1">
 <h1>Picking the Features and Fitting the Model</h1>
 <p>We will be using sklearn’s <code>SelectKBest</code> with the scoring function <code>mutual_info_classif</code> to get the most predictive features, limiting the number of features to 6 to lower the amount of iterations the machine learning model must compute.</p>
-<div id="cell-29" class="cell" data-execution_count="211">
+<div id="cell-29" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_selection <span class="im">import</span> SelectKBest, mutual_info_classif</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>selector <span class="op">=</span> SelectKBest(score_func<span class="op">=</span>mutual_info_classif, k<span class="op">=</span><span class="dv">6</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>X_selected <span class="op">=</span> selector.fit_transform(X_train, y_train)</span>
@@ -769,8 +769,8 @@ background-size: cover;
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(features)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Index(['person_income', 'loan_int_rate', 'loan_percent_income',
-       'person_home_ownership_RENT', 'cb_person_default_on_file_N',
-       'cb_person_default_on_file_Y'],
+       'person_home_ownership_MORTGAGE', 'person_home_ownership_RENT',
+       'cb_person_default_on_file_N'],
       dtype='object')</code></pre>
 </div>
 </div>
@@ -778,22 +778,22 @@ background-size: cover;
 <section id="building-the-model" class="level1">
 <h1>Building the Model</h1>
 <p>Now that we have obtained our features, we create a logistic regression model and train it on <code>X_train</code>, using only our selected models with <code>X_train[features]</code>. After fitting the model, we can produce a score that will show our models predictive accuracy.</p>
-<div id="cell-32" class="cell" data-execution_count="212">
+<div id="cell-32" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>LR <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">50000</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>LR.fit(X_train[features], y_train)</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>LR.score(X_train[features], y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="212">
-<pre><code>0.8461664392905867</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>0.8474761255115962</code></pre>
 </div>
 </div>
 </section>
 <section id="results" class="level1">
 <h1>Results</h1>
 <p>We see through our score that we got a higher predictive accuracy than our base rate of 78%, showing that are model indeed learned patterns through our training data and selected features.</p>
-<div id="cell-35" class="cell" data-execution_count="213">
+<div id="cell-35" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>LR.score(X_test[features], y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="213">
+<div class="cell-output cell-output-display" data-execution_count="31">
 <pre><code>0.8384984722828459</code></pre>
 </div>
 </div>
@@ -814,99 +814,123 @@ background-size: cover;
 <section id="weights" class="level1">
 <h1>Weights</h1>
 <p>Our weights, stored in the variable in <code>LR.coef</code> where <code>LR</code> is our logistic regression model shows an array with all of the weights for our chosen features respectively. This is also known as our weight vector, which we can then use to find the threshold in order for our model to produce a yes or no answer.</p>
-<div id="cell-41" class="cell" data-execution_count="214">
+<div id="cell-41" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>weight_vector <span class="op">=</span> LR.coef_</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>weight_vector</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="214">
-<pre><code>array([[-9.48057341e-06,  2.85958980e-01,  7.67127417e+00,
-         1.01511915e+00, -2.08025653e+00, -1.98039962e+00]])</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>array([[-1.08054136e-05,  2.91142437e-01,  7.80074168e+00,
+         1.18823376e+00,  1.98583970e+00, -1.00706707e-01]])</code></pre>
 </div>
 </div>
 </section>
 <section id="finding-a-threshold" class="level1">
 <h1>Finding a Threshold</h1>
-<p>In order to create an automated system that finds the threshold that maximizes the total profit, we are going to split this task up into three functions: <code>linear_score</code>, <code>individual_profit</code>, and <code>find_threshold</code>.</p>
-</section>
-<section id="linear-score-function" class="level1">
-<h1>Linear Score Function</h1>
-<p>This function computes the dot product of the values of the features for each borrower in the dataset and multiple them by the weights determined by the logistic regression model. This in turn will produce a score which gives a numerical value to the likelihood of the borrower defaulting or repaiding a loan.</p>
-<div id="cell-45" class="cell" data-execution_count="215">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> linear_score(features, weights):</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> features<span class="op">@</span>weights.flatten()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>In order to create an automated system that finds the threshold that maximizes the total profit, we are going to split this task up into two functions: <code>individual_profit</code>, and <code>find_threshold</code>.</p>
 </section>
 <section id="individual-profit-function" class="level1">
 <h1>Individual Profit Function</h1>
-<p>This function takes the loan amount and loan intrest rate of a borrower and computes based on their score and the threshold the profit that the bank will make dealing with this applicant. If the <code>score</code> is greater than our chosen <code>threshold</code>, the bank’s profit will be 0, because the bank will not lend to the potiental borrower. In the case where the model predicts the applicant will repay the loan, we then are faced with two more options. If the applicant actaully did repay the loan, that the profit is the <code>repaid_profit</code> value discussed previously. If the bank lends to an applicant but they default, then the bank in this case will lose profit, shown by the value of <code>default_profit</code>.</p>
-<div id="cell-47" class="cell" data-execution_count="216">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> individual_profit(loan_amnt, loan_int_rate, score, threshold, loan_status):</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        loan_int_rate <span class="op">=</span> loan_int_rate <span class="op">/</span> <span class="dv">100</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        repaid_profit <span class="op">=</span> loan_amnt<span class="op">*</span>(<span class="dv">1</span> <span class="op">+</span> <span class="fl">0.25</span><span class="op">*</span>loan_int_rate)<span class="op">**</span><span class="dv">10</span> <span class="op">-</span> loan_amnt</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>        defaulted_profit <span class="op">=</span> loan_amnt<span class="op">*</span>(<span class="dv">1</span> <span class="op">+</span> <span class="fl">0.25</span><span class="op">*</span>loan_int_rate)<span class="op">**</span><span class="dv">3</span> <span class="op">-</span> <span class="fl">1.7</span><span class="op">*</span>loan_amnt</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.where(score <span class="op">&lt;=</span> threshold, </span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>                    np.where(loan_status, defaulted_profit, repaid_profit), </span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>                    <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This function takes the loan amount and loan interest rate of a borrower and computes based on their score and the threshold the profit that the bank will make dealing with this applicant. If the <code>score</code> is greater than our chosen <code>threshold</code>, the bank’s profit will be 0, because the bank will not lend to the potiental borrower. In the case where the model predicts the applicant will repay the loan, we then are faced with two more options. If the applicant actaully did repay the loan, that the profit is the <code>repaid_profit</code> value discussed previously. If the bank lends to an applicant but they default, then the bank in this case will lose profit, shown by the value of <code>default_profit</code>.</p>
+<div id="cell-45" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> individual_profit(loan_amnt, loan_int_rate, score, threshold, loan_status):</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        loan_int_rate <span class="op">=</span> loan_int_rate <span class="op">/</span> <span class="dv">100</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        repaid_profit <span class="op">=</span> loan_amnt<span class="op">*</span>(<span class="dv">1</span> <span class="op">+</span> <span class="fl">0.25</span><span class="op">*</span>loan_int_rate)<span class="op">**</span><span class="dv">10</span> <span class="op">-</span> loan_amnt</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        defaulted_profit <span class="op">=</span> loan_amnt<span class="op">*</span>(<span class="dv">1</span> <span class="op">+</span> <span class="fl">0.25</span><span class="op">*</span>loan_int_rate)<span class="op">**</span><span class="dv">3</span> <span class="op">-</span> <span class="fl">1.7</span><span class="op">*</span>loan_amnt</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.where(score <span class="op">&lt;=</span> threshold, </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>                        np.where(loan_status <span class="op">==</span> <span class="dv">1</span>, defaulted_profit, repaid_profit), </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>                        <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="find-threshold-function" class="level1">
 <h1>Find Threshold Function</h1>
-<p>This function uses <code>np.linspace(0,1,1000)</code> to enumerate through 1000 threshold values evenly spaced between 0 and 1, and notes the total profit gained from that selected threshold with the value of <code>total_proft</code> using the <code>np.sum</code> function. If that profit is greater than our value for <code>max_profit</code>, then we update <code>max_profit</code> and <code>best_threshold</code> to reflect the threshold value that gives the bank the maximum profit.</p>
-<div id="cell-49" class="cell" data-execution_count="217">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_threshold(df, features, score_function, w, y):</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    max_profit <span class="op">=</span> <span class="bu">float</span>(<span class="st">"-inf"</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    best_threshold <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    scores <span class="op">=</span> score_function(df[features], w)</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    thresholds <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1000</span>)</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> threshold <span class="kw">in</span> thresholds:</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>        total_profit <span class="op">=</span> np.<span class="bu">sum</span>(individual_profit(df[<span class="st">"loan_amnt"</span>], df[<span class="st">"loan_int_rate"</span>], scores, threshold, y))</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> total_profit <span class="op">&gt;</span> max_profit:</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>            max_profit <span class="op">=</span> total_profit</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>            best_threshold <span class="op">=</span> threshold</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> best_threshold, max_profit</span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This function uses <code>np.linspace(0,1,1000)</code> to enumerate through 1000 threshold values evenly spaced between 0 and 1, and notes the total profit gained from that selected threshold with the value of <code>total_profit</code> using the <code>np.sum</code> function. If that profit is greater than our value for <code>max_profit</code>, then we update <code>max_profit</code> and <code>best_threshold</code> to reflect the threshold value that gives the bank the maximum profit.</p>
+<div id="cell-47" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_threshold(df, y, features, model):</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    max_profit <span class="op">=</span> <span class="bu">float</span>(<span class="st">"-inf"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    best_threshold <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    scores <span class="op">=</span> model.predict_proba(df[features])[:, <span class="dv">1</span>]</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    thresholds <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1000</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> threshold <span class="kw">in</span> thresholds:</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>        total_profit <span class="op">=</span> np.<span class="bu">sum</span>(individual_profit(df[<span class="st">"loan_amnt"</span>], df[<span class="st">"loan_int_rate"</span>], scores, threshold, y))</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> total_profit <span class="op">&gt;</span> max_profit:</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>            max_profit <span class="op">=</span> total_profit</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>            best_threshold <span class="op">=</span> threshold</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> best_threshold, max_profit</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="results-1" class="level1">
 <h1>Results</h1>
-<p>Our resulting function reports that the best threshold value is <code>0.99</code> which will predict a profit of <code>$280,747</code>.</p>
-<div id="cell-51" class="cell" data-execution_count="218">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>threshold, profit <span class="op">=</span> find_threshold(X_train, features, linear_score, weight_vector, y_train.values)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>(threshold, profit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="218">
-<pre><code>(np.float64(1.0), np.float64(6790404.549188839))</code></pre>
+<p>Our resulting function reports that the best threshold value is <code>0.44</code> which will predict a profit of <code>$25,728,462</code>.</p>
+<div id="cell-49" class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>best_threshold, max_profit <span class="op">=</span> find_threshold(X_train, y_train.values, features, LR)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>(best_threshold, max_profit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="40">
+<pre><code>(np.float64(0.44544544544544545), np.float64(25728462.290848892))</code></pre>
 </div>
 </div>
 </section>
-<section id="profit-per-borrower" class="level1">
-<h1>Profit per Borrower</h1>
-<p>We can then compute how much money on average the bank generates for each borrower using this automated decision making system by dividing the total profit by the number of borrowers in the dataset.</p>
-<div id="cell-54" class="cell" data-execution_count="219">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>profit_per_borrower <span class="op">=</span> profit <span class="op">/</span> <span class="bu">len</span>(X_train)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>profit_per_borrower</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="219">
-<pre><code>np.float64(370.55413638138276)</code></pre>
+<section id="training-threshold-to-profit-relationship" class="level1">
+<h1>Training Threshold to Profit Relationship</h1>
+<p>Through this graph, we can also demonstrate how the change in threshold value increases and decreases the profit the bank makes per loan borrower, showing that indeed a threshold value of approximately <code>0.4</code> results in the most profit for the bank.</p>
+<div id="cell-51" class="cell" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> LR.predict_proba(X_train[features])[:, <span class="dv">1</span>]</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Store thresholds and profits per borrower</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>thresholds <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1000</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>profits_per_borrower <span class="op">=</span> []</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>best_profit_per_borrower <span class="op">=</span> max_profit <span class="op">/</span> <span class="bu">len</span>(X_train)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> threshold <span class="kw">in</span> thresholds:</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    total_profit <span class="op">=</span> np.<span class="bu">sum</span>(individual_profit(</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        X_train[<span class="st">"loan_amnt"</span>],</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>        X_train[<span class="st">"loan_int_rate"</span>],</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>        scores,</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        threshold,</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        y_train</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    profit_per_borrower <span class="op">=</span> total_profit <span class="op">/</span> <span class="bu">len</span>(X_train)</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    profits_per_borrower.append(profit_per_borrower)</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>ax.plot(thresholds, profits_per_borrower)</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>ax.plot(best_threshold, best_profit_per_borrower, <span class="st">'ko'</span>)</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Profit per Prospective Borrower (Training Set)"</span>)</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Threshold"</span>)</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Profit per Borrower vs. Threshold"</span>)</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
 <section id="model-evaluation-banks-perspective" class="level1">
 <h1>Model Evaluation: Bank’s Perspective</h1>
 <p>To sum up our creation of a predictive decision making model, we are going to test it on the data stored in <code>df_test</code>.</p>
-<div id="cell-56" class="cell" data-execution_count="220">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/PhilChodrow/ml-notes/main/data/credit-risk/test.csv"</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>df_test <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>X_df_test, y_df_test <span class="op">=</span> prepare_data(df_test)</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>LR.fit(X_df_test[features], y_df_test)</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>weight_vector <span class="op">=</span> LR.coef_</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>threshold, profit <span class="op">=</span> find_threshold(X_df_test, features, linear_score, weight_vector, y_df_test.values)</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>threshold, profit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="220">
-<pre><code>(np.float64(1.0), np.float64(112120.47474005715))</code></pre>
+<div id="cell-53" class="cell" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/PhilChodrow/ml-notes/main/data/credit-risk/test.csv"</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>df_test <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>X_df_test, y_df_test <span class="op">=</span> prepare_data(df_test)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>LR.fit(X_df_test[features], y_df_test)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># weight_vecator = LR.coef_</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>threshold, profit <span class="op">=</span> find_threshold(X_df_test, y_df_test, features, LR)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>threshold, profit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="52">
+<pre><code>(np.float64(0.4194194194194194), np.float64(7703261.7572102975))</code></pre>
 </div>
 </div>
-<p>Running our automated decision making system on the</p>
+</section>
+<section id="testing-results" class="level1">
+<h1>Testing Results</h1>
+<p>Running our automated decision making system on the testing data gives a similar optimal threshold as the training data, proving that for this dataset a threshold value of around <code>0.4</code> results in the most profit for the bank.</p>
 </section>
 <section id="model-evaluation-borrowers-perspective" class="level1">
 <h1>Model Evaluation: Borrower’s Perspective</h1>
@@ -915,33 +939,40 @@ background-size: cover;
 <section id="differences-in-age-groups-access-to-credit" class="level1">
 <h1>Differences in Age Groups Access To Credit</h1>
 <p>To answer this question we can make a summary table. We use the <code>pd.cut</code> function to make continous variables into categorical variables.</p>
-<div id="cell-60" class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>age_bins <span class="op">=</span> [<span class="dv">18</span>, <span class="dv">25</span>, <span class="dv">35</span>, <span class="dv">50</span>, <span class="dv">65</span>, <span class="dv">100</span>]</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>age_labels <span class="op">=</span> [<span class="st">"&lt;25"</span>, <span class="st">"25-35"</span>, <span class="st">"35-50"</span>, <span class="st">"50-65"</span>, <span class="st">"&gt;65"</span>]</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>df_test[<span class="st">"age_group"</span>] <span class="op">=</span> pd.cut(df_test[<span class="st">"person_age"</span>], bins<span class="op">=</span>age_bins, labels<span class="op">=</span>age_labels)</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> linear_score(X_df_test[features], weight_vector)</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>df_test[<span class="st">"approved"</span>] <span class="op">=</span> scores <span class="op">&gt;</span> threshold</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>age_acceptance_rates <span class="op">=</span> df_test.groupby(<span class="st">"age_group"</span>)[<span class="st">"approved"</span>].mean()</span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>display(age_acceptance_rates)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-57" class="cell" data-execution_count="61">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create age groups</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>age_bins <span class="op">=</span> [<span class="dv">18</span>, <span class="dv">25</span>, <span class="dv">35</span>, <span class="dv">50</span>, <span class="dv">65</span>, <span class="dv">100</span>]</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>age_labels <span class="op">=</span> [<span class="st">"&lt;25"</span>, <span class="st">"25-35"</span>, <span class="st">"35-50"</span>, <span class="st">"50-65"</span>, <span class="st">"&gt;65"</span>]</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>df_test[<span class="st">"age_group"</span>] <span class="op">=</span> pd.cut(df_test[<span class="st">"person_age"</span>], bins<span class="op">=</span>age_bins, labels<span class="op">=</span>age_labels)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare test data (ensure one-hot encoding matches training data)</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>X_df_test, y_df_test <span class="op">=</span> prepare_data(df_test)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>df_test_filtered <span class="op">=</span> df_test.loc[X_df_test.index].copy()</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict scores using prepared data</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> LR.predict_proba(X_df_test[features])[:, <span class="dv">1</span>]</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Approval decision</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>df_test_filtered[<span class="st">"approved"</span>] <span class="op">=</span> scores <span class="op">&gt;</span> threshold</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute acceptance rates by age group</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>age_acceptance_rates <span class="op">=</span> df_test_filtered.groupby(<span class="st">"age_group"</span>)[<span class="st">"approved"</span>].mean()</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>display(age_acceptance_rates)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/var/folders/pv/gfxr_25s0q9gt_2k6h_bbgmc0000gn/T/ipykernel_31580/1654173622.py:16: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
-  age_acceptance_rates = df_test.groupby("age_group")["approved"].mean()</code></pre>
+<pre><code>/var/folders/pv/gfxr_25s0q9gt_2k6h_bbgmc0000gn/T/ipykernel_98691/2402408799.py:20: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+  age_acceptance_rates = df_test_filtered.groupby("age_group")["approved"].mean()</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <pre><code>age_group
-&lt;25       0.99521
-25-35    0.987067
-35-50    0.979094
-50-65     0.97561
-&gt;65           1.0
-Name: approved, dtype: object</code></pre>
+&lt;25      0.209654
+25-35    0.175219
+35-50    0.142857
+50-65    0.268293
+&gt;65      0.000000
+Name: approved, dtype: float64</code></pre>
 </div>
 </div>
 </section>
@@ -952,17 +983,17 @@ Name: approved, dtype: object</code></pre>
 <section id="difficuly-getting-loans-for-medical-expenses" class="level1">
 <h1>Difficuly Getting Loans for Medical Expenses</h1>
 <p>To answer this question, we will use the <code>pd.groupby()</code> function to group all of the applicants in <code>df_test</code> into the two groups <code>loan_intent_acceptance</code> which contains only the applicants that got their loan request approved and gets the percentage of those applicants whos loan intent was one of the following <code>loan_intent</code> values, and <code>loan_intent_default</code> which the same as <code>loan_intent_acceptance</code> except that it contains the true rate of default for that group.</p>
-<div id="cell-64" class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>loan_intent_acceptance <span class="op">=</span> df_test.groupby([<span class="st">"loan_intent"</span>])[<span class="st">"approved"</span>].mean()</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>loan_intent_default <span class="op">=</span> df_test.groupby([<span class="st">"loan_intent"</span>])[<span class="st">"loan_status"</span>].mean()  </span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>loan_analysis <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Acceptance Rate"</span>: loan_intent_acceptance,</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Default Rate"</span>: loan_intent_default</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>display(loan_analysis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-61" class="cell" data-execution_count="63">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>loan_intent_acceptance <span class="op">=</span> df_test_filtered.groupby([<span class="st">"loan_intent"</span>])[<span class="st">"approved"</span>].mean()</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>loan_intent_default <span class="op">=</span> df_test_filtered.groupby([<span class="st">"loan_intent"</span>])[<span class="st">"loan_status"</span>].mean()  </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>loan_analysis <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Acceptance Rate"</span>: loan_intent_acceptance,</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Default Rate"</span>: loan_intent_default</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>display(loan_analysis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 
@@ -983,33 +1014,33 @@ Name: approved, dtype: object</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">DEBTCONSOLIDATION</td>
-<td>0.990044</td>
-<td>0.279497</td>
+<td>0.200221</td>
+<td>0.287611</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">EDUCATION</td>
-<td>0.988946</td>
-<td>0.167421</td>
+<td>0.176871</td>
+<td>0.167517</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">HOMEIMPROVEMENT</td>
-<td>0.993506</td>
-<td>0.246088</td>
+<td>0.154221</td>
+<td>0.250000</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">MEDICAL</td>
-<td>0.991612</td>
-<td>0.281553</td>
+<td>0.211556</td>
+<td>0.284250</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">PERSONAL</td>
-<td>0.988978</td>
-<td>0.219227</td>
+<td>0.201403</td>
+<td>0.220441</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">VENTURE</td>
-<td>0.988589</td>
-<td>0.145701</td>
+<td>0.176349</td>
+<td>0.146266</td>
 </tr>
 </tbody>
 </table>
@@ -1021,25 +1052,27 @@ Name: approved, dtype: object</code></pre>
 <section id="income-level-vs-access-to-credit" class="level1">
 <h1>Income Level vs Access to Credit</h1>
 <p>To answer this question we take the same approach we took in tacking difference in loan availibility based on age groups to answer the question based on income groups.</p>
-<div id="cell-66" class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>income_bins <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">30000</span>, <span class="dv">60000</span>, <span class="dv">100000</span>, <span class="dv">500000</span>]</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>income_labels <span class="op">=</span> [<span class="st">"&lt;30K"</span>, <span class="st">"30K-60K"</span>, <span class="st">"60K-100K"</span>, <span class="st">"&gt;100K"</span>]</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>df_test[<span class="st">"income_group"</span>] <span class="op">=</span> pd.cut(df_test[<span class="st">"person_income"</span>], bins<span class="op">=</span>income_bins, labels<span class="op">=</span>income_labels)</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>income_acceptance_rates <span class="op">=</span> df_test.groupby(<span class="st">"income_group"</span>)[<span class="st">"approved"</span>].mean()</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>display(income_acceptance_rates)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-63" class="cell" data-execution_count="66">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add income group to the filtered DataFrame</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>income_bins <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">30000</span>, <span class="dv">60000</span>, <span class="dv">100000</span>, <span class="dv">500000</span>]</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>income_labels <span class="op">=</span> [<span class="st">"&lt;30K"</span>, <span class="st">"30K-60K"</span>, <span class="st">"60K-100K"</span>, <span class="st">"&gt;100K"</span>]</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>df_test_filtered[<span class="st">"income_group"</span>] <span class="op">=</span> pd.cut(df_test_filtered[<span class="st">"person_income"</span>], bins<span class="op">=</span>income_bins, labels<span class="op">=</span>income_labels)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by income group and compute acceptance rate</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>income_acceptance_rates <span class="op">=</span> df_test_filtered.groupby(<span class="st">"income_group"</span>)[<span class="st">"approved"</span>].mean()</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>display(income_acceptance_rates)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/var/folders/pv/gfxr_25s0q9gt_2k6h_bbgmc0000gn/T/ipykernel_31580/2528908447.py:8: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
-  income_acceptance_rates = df_test.groupby("income_group")["approved"].mean()</code></pre>
+<pre><code>/var/folders/pv/gfxr_25s0q9gt_2k6h_bbgmc0000gn/T/ipykernel_98691/1191128577.py:8: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+  income_acceptance_rates = df_test_filtered.groupby("income_group")["approved"].mean()</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <pre><code>income_group
-&lt;30K             1.0
-30K-60K          1.0
-60K-100K         1.0
-&gt;100K       0.998652
-Name: approved, dtype: object</code></pre>
+&lt;30K        0.383007
+30K-60K     0.234381
+60K-100K    0.105170
+&gt;100K       0.028302
+Name: approved, dtype: float64</code></pre>
 </div>
 </div>
 </section>
