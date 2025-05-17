@@ -209,7 +209,7 @@ background-size: cover;
 
 
 
-<div id="c1cd2257" class="cell" data-execution_count="117">
+<div id="c1cd2257" class="cell" data-execution_count="118">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext autoreload</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>autoreload <span class="dv">2</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> logistic_kernel <span class="im">import</span> KernelLogisticRegression</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -218,18 +218,23 @@ background-size: cover;
   %reload_ext autoreload</code></pre>
 </div>
 </div>
-<p><a href="https://github.com/CameronHudson813/CameronHudson813.github.io/blob/main/posts/Implementing%20Logistic%20Regression/logistic.py">logistic_kernel.py</a></p>
+<p><a href="https://github.com/CameronHudson813/CameronHudson813.github.io/blob/main/posts/%20Sparse%20Kernel%20Machines/logistic_kernel.py">logistic_kernel.py</a></p>
 <section id="abstract" class="level1">
 <h1>Abstract</h1>
+<p>Within this blog post I implement a kernelized logisitic regression model and perform various demonstrations to show how its behavior (making decision boundaries) changes based on its parameters. The experiments I preform is how the decision boundary created by the model changes based on its <code>γ</code> parameter, <code>λ</code></p>
 </section>
 <section id="positive-definite-kernel-function-definition" class="level1">
 <h1>Positive-definite Kernel Function Definition</h1>
-<p>Now that we have created a kernelized logistic regression, we need some kernel function to test our implementation. For this, I will define one of the most widely utilized kernel functions, the RBF kernel, down below:</p>
+<p>Now that we have created a kernelized logistic regression (implementation in <code>logistic_kernel.py</code>), we need some kernel function to test our implementation. For this, I will define one of the most widely utilized kernel functions, the RBF kernel, down below:</p>
 <div id="9d961be9" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rbf_kernel(X_1, X_2, gamma):</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> torch.exp(<span class="op">-</span>gamma<span class="op">*</span>torch.cdist(X_1, X_2)<span class="op">**</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="creating-classification-data" class="level1">
+<h1>Creating Classification Data</h1>
+<p>As this is a logistic regression model, its performance is best demonstrated on a binary classification problem. These two functions will create a 2d set of points belonging to 1 of 2 classes and plot the data we will be using to demonstrate kernelized logistic regression.</p>
 <div id="b2e88e0a" class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
@@ -266,10 +271,18 @@ background-size: cover;
 </div>
 </div>
 </div>
+</section>
+<section id="training-kernelized-logistic-regression" class="level1">
+<h1>Training Kernelized Logistic Regression</h1>
+<p>Now that we have our classification data, we can train our model on that data.</p>
 <div id="68235a27" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>KR <span class="op">=</span> KernelLogisticRegression(rbf_kernel, lam <span class="op">=</span> <span class="fl">0.1</span>, gamma <span class="op">=</span> <span class="dv">1</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>KR.fit(X, y, m_epochs <span class="op">=</span> <span class="dv">500000</span>, lr <span class="op">=</span> <span class="fl">0.0001</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="demonstrating-kernelized-logistic-regression-on-data" class="level1">
+<h1>Demonstrating Kernelized Logistic Regression on Data</h1>
+<p>Now that we have fully implemented our kernelized logistic regression and created a scatterplot data, we can demonstrate how the model fits to the data.</p>
 <div id="baabc5eb" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ix <span class="op">=</span> (torch.<span class="bu">abs</span>(KR.a) <span class="op">&gt;</span> <span class="fl">0.001</span>).squeeze() </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -302,16 +315,16 @@ background-size: cover;
 </div>
 </div>
 </section>
-<section id="demonstrating-kernelized-logistic-regression-on-data" class="level1">
-<h1>Demonstrating Kernelized Logistic Regression on Data</h1>
-<p>Now that we have fully implemented our kernelized logistic regression and created a scatterplot data, we can demonstrate how the model fits to the data.</p>
+<section id="results" class="level1">
+<h1>Results</h1>
+<p>Through the filled contour lines, we see the model’s predictions of what class the points are in. We see demonstrated in the plot, this kernelized logistic regression implementation does a good job at fitting to this data.</p>
 </section>
 <section id="experiments" class="level1">
 <h1>Experiments</h1>
-<p>We will use our implmentation of kernelized logistic regression in a variety of ways to demonstrate it</p>
+<p>We will use our implmentation of kernelized logistic regression in a variety of ways to demonstrate how its behavior changes based on changes to its hyperparameters.</p>
 <section id="λ-is-large" class="level2">
 <h2 class="anchored" data-anchor-id="λ-is-large">1: λ Is Large</h2>
-<p>When lambda is very large, yeah.</p>
+<p>The <code>λ</code> value controls how strong l2 regularization is in this kernelized logistic regression model, which is a method of penalizing large weights. With a large enough <code>λ</code> value, weights that do not significantly lower the objective loss function are pushed to a value of 0. In the experiment below, I show how a large enough λ value can result in all weights being driven to 0 by l2 regularization expect for 1 point, which is outlined in black.</p>
 <div id="9b918c32" class="cell" data-execution_count="59">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>KR <span class="op">=</span> KernelLogisticRegression(rbf_kernel, lam <span class="op">=</span> <span class="dv">163</span>, gamma <span class="op">=</span> <span class="dv">1</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>KR.fit(X, y, m_epochs <span class="op">=</span> <span class="dv">50000</span>, lr <span class="op">=</span> <span class="fl">0.01</span>)</span>
@@ -349,6 +362,7 @@ background-size: cover;
 </section>
 <section id="changing-γ" class="level2">
 <h2 class="anchored" data-anchor-id="changing-γ">2: Changing γ</h2>
+<p>The <code>γ</code> value within kernelized logistic regression essentially controls how wide of an influence each point has in the decision boundary, with the width decreasing as <code>γ</code> increases. As the experiment below demonstrates, the decision boundary is smoother when <code>γ</code> is low, as points far from each other have a larger influence on the decision function. Larger <code>γ</code> values however signal that only points close to each other have a strong influence on the overall shape of the decision boundary, making the model more prone to fitting to noise and having a decision boundary that perfectly wraps around the training data.</p>
 <div id="8b6110f5" class="cell" data-execution_count="66">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="dv">4</span>))</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">"Decision Boundary with increasing γ values"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
@@ -385,7 +399,7 @@ background-size: cover;
 </section>
 <section id="kernel-methods-on-nonlinear-patterns" class="level2">
 <h2 class="anchored" data-anchor-id="kernel-methods-on-nonlinear-patterns">3: Kernel Methods on Nonlinear Patterns</h2>
-<p>In order to demonstrate how kernelized logistic regression works on</p>
+<p>In order to demonstrate how kernelized logistic regression can fit to nonlinear data, in the experiment below we will generate a 2d set of nonlinear data with sklearn’s <code>make_moons</code>, using the <code>plot_decision_regions</code> function to show the decision boundary that is creating by this kernelized logistic regression implementation.</p>
 <div id="035f314f" class="cell" data-execution_count="86">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -415,9 +429,17 @@ background-size: cover;
 </div>
 </section>
 </section>
+<section id="results-1" class="level1">
+<h1>Results</h1>
+<p>As demonstrated, by tweaking this kernelized logistic regression <code>γ</code> and <code>λ</code> values, the model is able to create a decision boundary that almost perfectly seperates nonlinear data.</p>
+</section>
 <section id="overfitting-demonstration" class="level1">
 <h1>Overfitting Demonstration</h1>
-<p>We will generate two datasets, one for testing and one for training, and demonstrate how overfitting can occur in a kernelized logistic regression model when a suboptimal γ is picked.</p>
+<p>We will generate two datasets, one for testing and one for training, and demonstrate how overfitting can occur in a kernelized logistic regression model when a suboptimal <code>γ</code> is picked.</p>
+</section>
+<section id="generating-data" class="level1">
+<h1>Generating Data</h1>
+<p>In this block of code, we will use the same function with the same parameters <code>make_moons</code> to generate a training and testing dataset.</p>
 <div id="993b8a72" class="cell" data-execution_count="111">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>X_train, y_train <span class="op">=</span> make_moons(n_samples<span class="op">=</span><span class="dv">200</span>, noise<span class="op">=</span><span class="fl">0.8</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>X_test, y_test <span class="op">=</span> make_moons(n_samples<span class="op">=</span><span class="dv">200</span>, noise<span class="op">=</span><span class="fl">0.8</span>, random_state<span class="op">=</span><span class="dv">20</span>)</span>
@@ -445,6 +467,10 @@ background-size: cover;
 </div>
 </div>
 </div>
+</section>
+<section id="roc-curves-to-visualize-overfitting" class="level1">
+<h1>ROC Curves to Visualize Overfitting</h1>
+<p>An ROC (Receiver Operating Characteristic) curve plots the True Positive Rate (TPR) against the False Positive Rate (FPR) at various classification thresholds. It is a usful tool to assess the performance of a binary classifier, and we will use this to see model’s performance on the training dataset and testing dataset simultaneously.</p>
 <div id="973a6f5e" class="cell" data-execution_count="116">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> roc_curve</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>KR_high_gamma <span class="op">=</span> KernelLogisticRegression(rbf_kernel, lam<span class="op">=</span><span class="fl">0.01</span>, gamma<span class="op">=</span><span class="dv">1000</span>)</span>
@@ -481,8 +507,13 @@ background-size: cover;
 </div>
 </div>
 </section>
+<section id="results-2" class="level1">
+<h1>Results</h1>
+<p>Because of the large <code>γ</code> value, the train ROC curve illustrates that the model is fit perfectly to the training dataset, but has an accuracy of approximately <code>50%</code> on the training data, demonstrating how a suboptimal <code>γ</code> value can result in overfitting.</p>
+</section>
 <section id="conclusion" class="level1">
 <h1>Conclusion</h1>
+<p>With this blog post, I learned how to implement kernelized logistic regression and how changes to its hyperparameters can result in changes to its decision boundaries and overall model proformance.</p>
 
 
 </section>
