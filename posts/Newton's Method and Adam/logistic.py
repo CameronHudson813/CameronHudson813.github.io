@@ -155,7 +155,7 @@ class GradientDescentOptimizer:
         self.model = model
         self.w_prev = None
 
-    def step(self, X, y, alpha, beta):
+    def step(self, X, y, alpha, beta, minibatch, batch_size):
         """
         Performs one gradient descent step to update the model's weights.
 
@@ -165,7 +165,12 @@ class GradientDescentOptimizer:
             alpha (float): Learning rate 
             beta (float): Momentum factor (0 = no momentum).
         """
-     
+        if minibatch:
+            k = batch_size
+            ix = torch.randperm(X.size(0))[:k]
+            X = X[ix,:]
+            y = y[ix]
+            
         if self.model.w is None:
             self.model.score(X)  # initializes self.model.w
 
@@ -173,7 +178,11 @@ class GradientDescentOptimizer:
             self.w_prev = self.model.w.clone()
 
         grad = self.model.grad(X, y)
-        w_new = self.model.w - alpha * grad + beta * (self.model.w - self.w_prev)
+
+        if minibatch:
+            w_new = self.model.w - (alpha / k) * grad + beta * (self.model.w - self.w_prev)
+        else:
+            w_new = self.model.w - alpha * grad + beta * (self.model.w - self.w_prev)
 
         # Update weights and previous weights
         self.w_prev = self.model.w.clone()
@@ -215,6 +224,7 @@ class NewtonOptimizer:
         newton_direction = torch.linalg.solve(H, grad)
         
         # Update the weights
+        # self.model.w = self.model.w - alpha * newton_direction
         self.model.w = self.model.w - alpha * newton_direction
 
 class AdamOptimizer:
@@ -223,8 +233,18 @@ class AdamOptimizer:
         self.m = None
         self.v = None
         self.t = 0  # timestep
+        self.w_0 = None
+    
+    def grad(self, X, y, batch_size): #Stochastic gradient descent
+        k = batch_size
+        ix = torch.randperm(X.size(0))[:k]
 
-    def step(self, X, y, alpha, beta_1, beta_2, eps):
+        scores = self.model.score(X[ix,:])
+        sigmoids = torch.sigmoid(scores)
+        error = sigmoids - y[ix]
+        return  (X[ix,:].T @ error) / X[ix,:].shape[0]
+
+    def step(self, X, y, alpha, beta_1, beta_2, eps, batch_size):
         """
         Performs one Adam optimization step to update the model's weights.
 
@@ -239,7 +259,7 @@ class AdamOptimizer:
         if self.model.w is None:
             self.model.score(X)  # initializes self.model.w
 
-        grad = self.model.grad(X, y)
+        grad = self.grad(X, y, batch_size)
 
         if self.m is None:
             self.m = torch.zeros_like(grad)
