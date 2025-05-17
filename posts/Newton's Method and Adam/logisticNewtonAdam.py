@@ -202,14 +202,19 @@ class NewtonOptimizer:
     def step(self, X, y, alpha):
         """
         Performs one Newton optimization step to update the model's weights.
-        
-        The update formula is: w ← w - α * H(w)^(-1) * ∇L(w)
-        
+
+        Newton's method uses second-order information (the Hessian) to take a more
+        informed step in the direction of the minimum.
+
+        The update rule is:
+            w ← w - α * H⁻¹(w) * ∇L(w)
+
         Args:
             X (torch.Tensor): Input features of shape (n, p).
             y (torch.Tensor): Binary target labels of shape (n,).
-            alpha (float): Learning rate, typically smaller than for gradient descent.
+            alpha (float): Learning rate (step size), typically small (e.g., 0.1).
         """
+
         if self.model.w is None:
             self.model.score(X)  # initializes self.model.w
         
@@ -229,13 +234,30 @@ class NewtonOptimizer:
 
 class AdamOptimizer:
     def __init__(self, model):
+        """
+        Initializes the Adam optimizer.
+
+        Args:
+            model (LogisticRegression): The logistic regression model to optimize.
+        """
         self.model = model
         self.m = None
         self.v = None
         self.t = 0  # timestep
         self.w_0 = None
     
-    def grad(self, X, y, batch_size): #Stochastic gradient descent
+    def grad(self, X, y, batch_size):
+        """
+        Computes a stochastic estimate of the gradient using a mini-batch.
+
+        Args:
+            X (torch.Tensor): Input features of shape (n, p).
+            y (torch.Tensor): Binary target labels of shape (n,).
+            batch_size (int): Number of samples in the mini-batch.
+
+        Returns:
+            torch.Tensor: Gradient estimate of shape (p,).
+        """
         k = batch_size
         ix = torch.randperm(X.size(0))[:k]
 
@@ -248,29 +270,46 @@ class AdamOptimizer:
         """
         Performs one Adam optimization step to update the model's weights.
 
+        Adam combines momentum and adaptive learning rate techniques for 
+        efficient and robust training.
+
+        Update rule:
+            m ← β₁ * m + (1 - β₁) * grad
+            v ← β₂ * v + (1 - β₂) * grad²
+            m̂ ← m / (1 - β₁^t)
+            v̂ ← v / (1 - β₂^t)
+            w ← w - α * m̂ / (sqrt(v̂) + ε)
+
         Args:
             X (torch.Tensor): Input features of shape (n, p).
             y (torch.Tensor): Binary target labels of shape (n,).
-            alpha (float): Learning rate.
-            beta_1 (float): Exponential decay rate for the first moment estimates.
-            beta_2 (float): Exponential decay rate for the second moment estimates.
-            eps (float): Small constant for numerical stability.
+            alpha (float): Learning rate (e.g., 0.001).
+            beta_1 (float): Decay rate for first moment estimate (e.g., 0.9).
+            beta_2 (float): Decay rate for second moment estimate (e.g., 0.999).
+            eps (float): Small constant for numerical stability (e.g., 1e-8).
+            batch_size (int): Mini-batch size for stochastic updates.
         """
         if self.model.w is None:
             self.model.score(X)  # initializes self.model.w
 
+        # Compute mini-batch gradient
         grad = self.grad(X, y, batch_size)
 
+        # Initialize moving averages if needed
         if self.m is None:
             self.m = torch.zeros_like(grad)
         if self.v is None:
             self.v = torch.zeros_like(grad)
 
+        # Update timestep
         self.t += 1
+
+        # Update biased first and second moment estimates
         self.m = beta_1 * self.m + (1 - beta_1) * grad
         self.v = beta_2 * self.v + (1 - beta_2) * (grad ** 2)
 
         m_hat = self.m / (1 - beta_1 ** self.t)
         v_hat = self.v / (1 - beta_2 ** self.t)
 
+        # Update weights
         self.model.w = self.model.w - alpha * m_hat / (torch.sqrt(v_hat) + eps)

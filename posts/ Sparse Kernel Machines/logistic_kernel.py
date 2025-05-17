@@ -116,6 +116,14 @@ class GradientDescentOptimizer:
 class KernelLogisticRegression(LinearModel):
     
     def __init__(self, kernel_fn, lam, gamma):
+        """
+        Initialize the kernel logistic regression model.
+
+        Args:
+            kernel_fn (callable): A function that computes the kernel matrix between two datasets.
+            lam (float): Regularization strength (lambda).
+            gamma (float): Hyperparameter for the kernel function (e.g., RBF kernel width).
+        """
         self.kernel_fn = kernel_fn
         self.lam = lam
         self.gamma = gamma
@@ -124,12 +132,35 @@ class KernelLogisticRegression(LinearModel):
         self.X_train = None
 
     def score(self, X, recompute_kernel):
+        """
+        Compute the raw model scores (logits) for input data X.
+
+        Args:
+            X (torch.Tensor): Input feature matrix of shape [n_test, d].
+            recompute_kernel (bool): Must be True to proceed; raises error if False.
+
+        Returns:
+            torch.Tensor: Raw scores (logits) of shape [n_test].
+
+        Raises:
+            ValueError: If recompute_kernel is False.
+        """
         if recompute_kernel == False:
             raise ValueError("Model has not been trained or parameters not initialized.")
         K = self.kernel_fn(X, self.X_train, self.gamma)  # [n_test, n_train]
         return (K @ self.a).squeeze()  # [n_test]
 
     def fit(self, X, y, m_epochs, lr, beta=0.0):
+        """
+        Train the kernel logistic regression model using gradient descent with optional momentum.
+
+        Args:
+            X (torch.Tensor): Training feature matrix of shape [m, d].
+            y (torch.Tensor): Binary target labels of shape [m] or [m, 1].
+            m_epochs (int): Number of training epochs.
+            lr (float): Learning rate.
+            beta (float): Momentum coefficient (default: 0.0).
+        """
         m = X.shape[0]
         self.X_train = X
         self.a = torch.zeros((m, 1), dtype=X.dtype)
@@ -151,12 +182,30 @@ class KernelLogisticRegression(LinearModel):
             self.a = a_new
 
     def predict_proba(self, X):
+        """
+        Predict probabilities for input samples.
+
+        Args:
+            X (np.ndarray or torch.Tensor): Input data of shape [n, d].
+
+        Returns:
+            torch.Tensor: Predicted probabilities of shape [n, 1].
+        """
         if isinstance(X, np.ndarray):
             X = torch.tensor(X, dtype=torch.float32)
         s = self.score(X, recompute_kernel=True).unsqueeze(1)
         return torch.sigmoid(s)
 
     def predict(self, X):
+        """
+        Predict binary class labels for input samples.
+
+        Args:
+            X (np.ndarray or torch.Tensor): Input data of shape [n, d].
+
+        Returns:
+            torch.Tensor: Predicted labels (0 or 1) of shape [n, 1].
+        """
         if isinstance(X, np.ndarray):
             X = torch.tensor(X, dtype=torch.float32)
         return (self.predict_proba(X) >= 0.5).float()
