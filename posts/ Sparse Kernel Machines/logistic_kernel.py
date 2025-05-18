@@ -56,7 +56,7 @@ class LogisticRegression(LinearModel):
 
         Args:
             X (torch.Tensor): feature matrix of shape (n, p), where N is number of samples.
-            y (torch.Tensor): Binary target labels of shape (n,) with values 0 or 1.
+            y (torch.Tensor): Binary target labels of shape (n) with values 0 or 1.
 
         Returns:
             torch.Tensor: Mean binary cross-entropy loss across the batch.
@@ -73,10 +73,10 @@ class LogisticRegression(LinearModel):
 
         Args:
             X (torch.Tensor): Input features of shape (n, p).
-            y (torch.Tensor): Binary target labels of shape (n,).
+            y (torch.Tensor): Binary target labels of shape (n).
 
         Returns:
-            torch.Tensor: Gradient of the loss with respect to the model's weights, shape (p,).
+            torch.Tensor: Gradient of the loss with respect to the model's weights, shape (p).
         """
         scores = self.score(X)
         sigmoids = torch.sigmoid(scores)
@@ -95,7 +95,7 @@ class GradientDescentOptimizer:
 
         Args:
             X (torch.Tensor): Input features of shape (n, p).
-            y (torch.Tensor): Binary target labels of shape (n,) 
+            y (torch.Tensor): Binary target labels of shape (n) 
             alpha (float): Learning rate 
             beta (float): Momentum factor (0 = no momentum).
         """
@@ -120,9 +120,9 @@ class KernelLogisticRegression(LinearModel):
         Initialize the kernel logistic regression model.
 
         Args:
-            kernel_fn (callable): A function that computes the kernel matrix between two datasets.
+            kernel_fn (function): A function that computes the kernel matrix between two datasets.
             lam (float): Regularization strength (lambda).
-            gamma (float): Hyperparameter for the kernel function (e.g., RBF kernel width).
+            gamma (float): Hyperparameter for the kernel function.
         """
         self.kernel_fn = kernel_fn
         self.lam = lam
@@ -133,24 +133,22 @@ class KernelLogisticRegression(LinearModel):
 
     def score(self, X, recompute_kernel):
         """
-        Compute the raw model scores (logits) for input data X.
+        Compute the model scores for input data X.
 
         Args:
             X (torch.Tensor): Input feature matrix of shape [n_test, d].
             recompute_kernel (bool): Must be True to proceed; raises error if False.
 
         Returns:
-            torch.Tensor: Raw scores (logits) of shape [n_test].
+            torch.Tensor
 
-        Raises:
-            ValueError: If recompute_kernel is False.
         """
         if recompute_kernel == False:
-            raise ValueError("Model has not been trained or parameters not initialized.")
+            raise ValueError("Must recompute kernel")
         K = self.kernel_fn(X, self.X_train, self.gamma)  # [n_test, n_train]
         return (K @ self.a).squeeze()  # [n_test]
 
-    def fit(self, X, y, m_epochs, lr, beta=0.0):
+    def fit(self, X, y, m_epochs, lr, beta):
         """
         Train the kernel logistic regression model using gradient descent with optional momentum.
 
@@ -159,7 +157,7 @@ class KernelLogisticRegression(LinearModel):
             y (torch.Tensor): Binary target labels of shape [m] or [m, 1].
             m_epochs (int): Number of training epochs.
             lr (float): Learning rate.
-            beta (float): Momentum coefficient (default: 0.0).
+            beta (float): Momentum coefficient 
         """
         m = X.shape[0]
         self.X_train = X
