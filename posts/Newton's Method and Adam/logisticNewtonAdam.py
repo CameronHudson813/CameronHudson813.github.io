@@ -166,13 +166,10 @@ class NewtonOptimizer:
         Newton's method uses second-order information (the Hessian) to take a more
         informed step in the direction of the minimum.
 
-        The update rule is:
-            w ← w - α * H⁻¹(w) * ∇L(w)
-
         Args:
             X (torch.Tensor): Input features of shape (n, p).
-            y (torch.Tensor): Binary target labels of shape (n,).
-            alpha (float): Learning rate (step size), typically small (e.g., 0.1).
+            y (torch.Tensor): Binary target labels of shape (n).
+            alpha (float): Learning rate (step size)
         """
 
         if self.model.w is None:
@@ -184,11 +181,10 @@ class NewtonOptimizer:
         # Compute the Hessian
         H = self.model.hessian(X)
         # Compute the Newton direction: H^(-1) * grad
-        # Using torch.linalg.solve for numerical stability instead of direct inversion
+        # Using torch.linalg.solve for numerical stability 
         newton_direction = torch.linalg.solve(H, grad)
         
         # Update the weights
-        # self.model.w = self.model.w - alpha * newton_direction
         self.model.w = self.model.w - alpha * newton_direction
 
 class AdamOptimizer:
@@ -202,7 +198,7 @@ class AdamOptimizer:
         self.model = model
         self.m = None
         self.v = None
-        self.t = 0  # timestep
+        self.t = 0  
         self.w_0 = None
     
     def grad(self, X, y, batch_size):
@@ -211,11 +207,11 @@ class AdamOptimizer:
 
         Args:
             X (torch.Tensor): Input features of shape (n, p).
-            y (torch.Tensor): Binary target labels of shape (n,).
+            y (torch.Tensor): Binary target labels of shape (n).
             batch_size (int): Number of samples in the mini-batch.
 
         Returns:
-            torch.Tensor: Gradient estimate of shape (p,).
+            torch.Tensor: Gradient estimate of shape (p).
         """
         k = batch_size
         ix = torch.randperm(X.size(0))[:k]

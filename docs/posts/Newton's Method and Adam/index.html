@@ -224,17 +224,21 @@ background-size: cover;
 </div>
 </div>
 </section>
+<section id="source-code" class="level1">
+<h1>Source Code</h1>
+<p><a href="https://github.com/CameronHudson813/CameronHudson813.github.io/blob/main/posts/Newton's%20Method%20and%20Adam/logisticNewtonAdam.py">logisticNewtonAdam.py</a></p>
+</section>
 <section id="newtons-method" class="level1">
 <h1>Newton’s Method</h1>
 </section>
 <section id="testing-newton-method-implementation" class="level1">
 <h1>Testing Newton Method Implementation</h1>
-<p>In order to test the correctness of the Newton’s Method implementation, I will demonstrate for a sufficiently small learning rate <code>α</code>, Newton’s Method coverges to the same result that regular gradient descent would achieve.</p>
+<p>In order to test the correctness of the Newton’s Method implementation (shown in the source code link above), I will demonstrate for a sufficiently small learning rate <code>α</code>, Newton’s Method coverges to the same result that regular gradient descent would achieve.</p>
 </section>
 <section id="generating-classification-data" class="level1">
 <h1>Generating Classification Data</h1>
-<p>To test Newton’s Method optimization against standard gradient descent, we will generate a 2d set of binary classification data with the <code>generate_classification_data</code> function below.</p>
-<div id="cell-6" class="cell" data-execution_count="139">
+<p>To test Newton’s Method optimization against standard gradient descent, we will generate a 2d set of binary classification data with the <code>generate_classification_data</code> function below, as well as a visualization of the data and classes with the <code>plot_classification_data</code> function.</p>
+<div id="cell-7" class="cell" data-execution_count="253">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_classification_data(n_points <span class="op">=</span> <span class="dv">300</span>, noise <span class="op">=</span> <span class="fl">0.5</span>, p_dims <span class="op">=</span> <span class="dv">2</span>):</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -245,343 +249,23 @@ background-size: cover;
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X, y</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> generate_classification_data(noise <span class="op">=</span> <span class="fl">0.5</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"X: </span><span class="sc">{</span>X<span class="sc">}</span><span class="ch">\n</span><span class="ss">y: </span><span class="sc">{</span>y<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>X: tensor([[ 0.1331, -0.5069,  1.0000],
-        [ 0.4187,  0.5261,  1.0000],
-        [-0.2983,  0.6095,  1.0000],
-        [-0.2762, -0.2033,  1.0000],
-        [-0.2627,  0.2448,  1.0000],
-        [-0.2522,  0.0076,  1.0000],
-        [ 0.2728, -0.3588,  1.0000],
-        [-0.4089,  0.1683,  1.0000],
-        [-0.6963, -0.0694,  1.0000],
-        [-0.2051,  0.4304,  1.0000],
-        [ 0.1909, -0.8464,  1.0000],
-        [ 0.1166,  0.1731,  1.0000],
-        [ 1.1864,  0.5177,  1.0000],
-        [ 0.3620, -0.3833,  1.0000],
-        [-0.6120, -0.4335,  1.0000],
-        [-0.0809,  0.8607,  1.0000],
-        [-0.5815,  0.1353,  1.0000],
-        [ 0.3168, -1.1318,  1.0000],
-        [ 0.1718,  0.3886,  1.0000],
-        [-0.3228, -0.1408,  1.0000],
-        [-0.5979,  0.0414,  1.0000],
-        [-0.6130,  0.2337,  1.0000],
-        [ 0.2476,  0.1517,  1.0000],
-        [-0.6775,  0.0802,  1.0000],
-        [-0.4850, -0.1069,  1.0000],
-        [ 0.1449,  0.6849,  1.0000],
-        [-0.3816,  0.0954,  1.0000],
-        [-0.5543,  0.3167,  1.0000],
-        [-0.4704,  0.3809,  1.0000],
-        [-0.8565,  0.4425,  1.0000],
-        [ 0.5731,  1.0433,  1.0000],
-        [-0.3849, -0.3297,  1.0000],
-        [-0.6868, -0.2638,  1.0000],
-        [ 0.9089,  0.0201,  1.0000],
-        [-0.3176,  0.4226,  1.0000],
-        [-0.3757, -0.3174,  1.0000],
-        [-0.5904,  1.4370,  1.0000],
-        [ 0.7336, -0.5904,  1.0000],
-        [ 0.0961, -0.7408,  1.0000],
-        [ 0.2325,  0.0639,  1.0000],
-        [-0.3776,  0.6925,  1.0000],
-        [ 0.6023,  0.2660,  1.0000],
-        [ 0.4420,  0.3346,  1.0000],
-        [ 0.5956,  0.3301,  1.0000],
-        [ 0.4462, -0.4129,  1.0000],
-        [-0.2313, -0.9358,  1.0000],
-        [-0.7569, -0.3956,  1.0000],
-        [ 0.6142, -0.3605,  1.0000],
-        [ 0.3152, -0.2747,  1.0000],
-        [ 0.0900, -0.8234,  1.0000],
-        [-0.0134, -0.1598,  1.0000],
-        [ 0.5709, -0.4076,  1.0000],
-        [ 0.2715,  0.5630,  1.0000],
-        [-0.2375,  0.2559,  1.0000],
-        [ 1.1023, -0.2924,  1.0000],
-        [-0.6134, -0.3280,  1.0000],
-        [-0.2934, -0.0305,  1.0000],
-        [ 0.4149, -0.0807,  1.0000],
-        [-0.7792, -0.1801,  1.0000],
-        [-0.5370, -0.1105,  1.0000],
-        [-0.7524, -0.0264,  1.0000],
-        [ 0.0451, -0.8745,  1.0000],
-        [-0.1563, -1.3893,  1.0000],
-        [ 0.6538, -0.6754,  1.0000],
-        [-0.6332, -0.9790,  1.0000],
-        [ 0.6932,  0.3684,  1.0000],
-        [ 0.1792, -0.5157,  1.0000],
-        [ 0.0873, -0.8205,  1.0000],
-        [-0.1817,  0.4487,  1.0000],
-        [-0.0073, -0.1147,  1.0000],
-        [ 1.5882, -0.3857,  1.0000],
-        [-0.6397,  0.2955,  1.0000],
-        [-0.0893,  0.1900,  1.0000],
-        [-0.9487, -0.0137,  1.0000],
-        [ 0.1760,  0.7914,  1.0000],
-        [ 0.0945,  0.7796,  1.0000],
-        [-0.0870,  0.6618,  1.0000],
-        [ 0.3157,  0.4296,  1.0000],
-        [ 0.2550,  0.7858,  1.0000],
-        [ 0.5720, -0.3460,  1.0000],
-        [ 0.0374, -0.4952,  1.0000],
-        [-0.1146, -0.2138,  1.0000],
-        [-0.1414,  0.7533,  1.0000],
-        [-0.0163,  0.4258,  1.0000],
-        [ 0.2751,  0.6873,  1.0000],
-        [-0.7556,  0.0736,  1.0000],
-        [ 0.2972,  0.0867,  1.0000],
-        [ 0.2202,  0.7592,  1.0000],
-        [-0.4357,  0.3405,  1.0000],
-        [ 0.1502, -1.2351,  1.0000],
-        [ 0.6420,  0.1932,  1.0000],
-        [-0.3471,  0.1838,  1.0000],
-        [-0.7134, -0.0053,  1.0000],
-        [-0.1433,  0.0474,  1.0000],
-        [ 0.2392,  0.1363,  1.0000],
-        [-0.4311, -0.7110,  1.0000],
-        [ 0.2851, -0.4659,  1.0000],
-        [ 0.0043, -0.1131,  1.0000],
-        [ 0.3214, -0.8073,  1.0000],
-        [-0.2994,  0.6678,  1.0000],
-        [-0.7217, -0.4693,  1.0000],
-        [ 0.2342, -0.4415,  1.0000],
-        [-0.1569,  0.8284,  1.0000],
-        [-0.0766, -0.7148,  1.0000],
-        [ 0.1786,  0.6318,  1.0000],
-        [-0.4376,  0.4944,  1.0000],
-        [-0.2162, -0.1633,  1.0000],
-        [ 0.1791, -0.2712,  1.0000],
-        [ 0.3576, -0.3156,  1.0000],
-        [-0.4294,  0.4654,  1.0000],
-        [ 0.2909, -0.4373,  1.0000],
-        [ 0.1757, -0.0087,  1.0000],
-        [ 0.3738,  0.1028,  1.0000],
-        [-0.3560,  0.5449,  1.0000],
-        [ 0.9295, -0.0075,  1.0000],
-        [-0.4331, -0.2177,  1.0000],
-        [ 0.5616,  0.4446,  1.0000],
-        [-0.1917,  0.0384,  1.0000],
-        [-0.0284,  0.6887,  1.0000],
-        [ 0.2411,  0.9062,  1.0000],
-        [-0.0545, -0.1652,  1.0000],
-        [ 0.5673, -0.7436,  1.0000],
-        [-0.4248,  0.1280,  1.0000],
-        [-0.7716,  0.1606,  1.0000],
-        [ 0.7165,  0.4007,  1.0000],
-        [-0.3119, -0.9163,  1.0000],
-        [-0.0244,  0.0823,  1.0000],
-        [ 0.2067, -0.1202,  1.0000],
-        [-0.1462, -0.1338,  1.0000],
-        [-0.1623, -0.2097,  1.0000],
-        [-0.3307,  1.0402,  1.0000],
-        [-0.3396,  0.4297,  1.0000],
-        [-0.6635,  0.4795,  1.0000],
-        [ 0.0596,  0.1857,  1.0000],
-        [-0.4363, -0.3012,  1.0000],
-        [ 1.1137,  0.1399,  1.0000],
-        [ 0.3807,  0.0956,  1.0000],
-        [-0.3899,  0.0183,  1.0000],
-        [ 0.5573,  0.7184,  1.0000],
-        [-0.4150,  0.5053,  1.0000],
-        [ 0.7424,  0.2786,  1.0000],
-        [ 0.5013, -0.1183,  1.0000],
-        [ 0.6451,  0.5157,  1.0000],
-        [ 0.3827,  0.2200,  1.0000],
-        [-0.4923, -0.1419,  1.0000],
-        [ 0.1584, -0.0343,  1.0000],
-        [-1.0731,  0.6030,  1.0000],
-        [ 0.5403,  0.0130,  1.0000],
-        [-0.0551,  0.1550,  1.0000],
-        [-0.6985, -0.7240,  1.0000],
-        [ 1.4655,  0.9105,  1.0000],
-        [ 1.2500,  0.7366,  1.0000],
-        [ 1.4411,  0.7039,  1.0000],
-        [ 1.6027,  0.5539,  1.0000],
-        [ 0.6114,  1.6419,  1.0000],
-        [ 1.5508,  1.6272,  1.0000],
-        [ 0.3305,  0.4246,  1.0000],
-        [ 1.2746,  1.0889,  1.0000],
-        [ 0.8156,  1.0837,  1.0000],
-        [ 0.1200,  0.1342,  1.0000],
-        [ 0.0287,  0.5136,  1.0000],
-        [ 1.9395,  0.9310,  1.0000],
-        [ 0.8554,  0.9583,  1.0000],
-        [ 1.4490,  1.2197,  1.0000],
-        [ 1.4110,  0.6502,  1.0000],
-        [ 0.7046,  0.2482,  1.0000],
-        [ 0.3969,  0.4183,  1.0000],
-        [-0.2829,  0.3144,  1.0000],
-        [ 1.3182,  1.2545,  1.0000],
-        [ 1.2874,  0.7710,  1.0000],
-        [ 1.2861,  0.2561,  1.0000],
-        [ 0.5372,  0.8359,  1.0000],
-        [ 1.4012,  1.5290,  1.0000],
-        [ 1.3349,  0.6617,  1.0000],
-        [ 1.6467,  1.2833,  1.0000],
-        [ 1.4452,  1.0106,  1.0000],
-        [ 0.9027,  1.0919,  1.0000],
-        [ 0.3928,  0.9408,  1.0000],
-        [ 0.6143,  1.3941,  1.0000],
-        [ 1.4518,  0.7951,  1.0000],
-        [ 0.8818,  2.1596,  1.0000],
-        [ 0.8676,  1.7272,  1.0000],
-        [ 0.2290,  1.6438,  1.0000],
-        [ 0.7504,  1.1772,  1.0000],
-        [ 0.5980,  1.7835,  1.0000],
-        [ 1.2934,  1.8412,  1.0000],
-        [ 0.3258,  1.2439,  1.0000],
-        [ 0.5989,  1.1149,  1.0000],
-        [ 0.6206,  1.4095,  1.0000],
-        [ 0.8444,  1.3255,  1.0000],
-        [ 0.8805, -0.0651,  1.0000],
-        [ 0.7978,  0.6888,  1.0000],
-        [ 0.7775,  1.6379,  1.0000],
-        [ 0.3940,  0.4579,  1.0000],
-        [ 0.8396,  1.3161,  1.0000],
-        [ 1.3997,  0.8481,  1.0000],
-        [ 0.7352,  1.1827,  1.0000],
-        [ 1.5696,  1.0127,  1.0000],
-        [ 1.5824,  1.8071,  1.0000],
-        [-0.1278,  1.4597,  1.0000],
-        [ 0.6322,  0.9226,  1.0000],
-        [ 1.1156,  1.2813,  1.0000],
-        [ 1.5029,  1.4662,  1.0000],
-        [ 0.1822,  1.8539,  1.0000],
-        [ 0.6391,  0.8902,  1.0000],
-        [ 0.9805,  0.5015,  1.0000],
-        [ 1.2222,  1.8250,  1.0000],
-        [ 1.7340,  1.0449,  1.0000],
-        [ 1.2185,  0.0194,  1.0000],
-        [ 1.8217,  1.8037,  1.0000],
-        [ 0.1951,  1.2689,  1.0000],
-        [ 0.7735,  0.8496,  1.0000],
-        [ 0.7627,  1.1087,  1.0000],
-        [ 1.3059,  1.3112,  1.0000],
-        [ 1.5326,  0.6580,  1.0000],
-        [ 0.5037,  1.1462,  1.0000],
-        [ 1.8760,  1.7601,  1.0000],
-        [ 0.7737,  1.1377,  1.0000],
-        [ 0.2740,  0.8976,  1.0000],
-        [ 0.1951,  1.4352,  1.0000],
-        [ 1.1774,  1.5710,  1.0000],
-        [ 0.3396,  0.8168,  1.0000],
-        [ 0.5737,  1.5381,  1.0000],
-        [ 1.0562,  1.5395,  1.0000],
-        [ 0.3118,  0.8448,  1.0000],
-        [ 0.9814,  0.2286,  1.0000],
-        [ 1.7905,  1.3631,  1.0000],
-        [ 0.8023,  1.6082,  1.0000],
-        [ 0.3342,  0.6692,  1.0000],
-        [ 0.7624,  1.0886,  1.0000],
-        [ 1.7471,  1.3891,  1.0000],
-        [-0.0781,  1.6497,  1.0000],
-        [ 0.0130,  1.0696,  1.0000],
-        [ 0.6669, -0.0238,  1.0000],
-        [ 1.3222,  0.9816,  1.0000],
-        [ 1.0281,  0.7035,  1.0000],
-        [ 1.4878,  1.9413,  1.0000],
-        [ 0.8784,  1.5134,  1.0000],
-        [ 0.6387, -0.0455,  1.0000],
-        [ 1.2730,  1.0329,  1.0000],
-        [ 1.1087,  1.3316,  1.0000],
-        [ 0.1826,  0.8805,  1.0000],
-        [ 0.5362,  0.8868,  1.0000],
-        [ 0.2402,  0.1722,  1.0000],
-        [ 0.0703,  0.8987,  1.0000],
-        [ 1.1769,  1.3797,  1.0000],
-        [ 0.3588,  0.7141,  1.0000],
-        [ 1.0876,  1.4334,  1.0000],
-        [ 1.7543,  1.5279,  1.0000],
-        [ 0.6718,  0.9518,  1.0000],
-        [ 0.8398, -0.5626,  1.0000],
-        [ 1.6565,  0.7431,  1.0000],
-        [ 1.3444,  0.3799,  1.0000],
-        [ 1.0211,  0.3876,  1.0000],
-        [ 1.2114,  1.2562,  1.0000],
-        [ 0.9544,  1.2431,  1.0000],
-        [ 1.1240,  0.4235,  1.0000],
-        [ 0.5480,  0.3698,  1.0000],
-        [ 1.3353,  2.0958,  1.0000],
-        [ 0.3898,  0.7619,  1.0000],
-        [ 1.1014,  1.3832,  1.0000],
-        [ 0.7995,  1.5304,  1.0000],
-        [ 1.3529,  0.4032,  1.0000],
-        [ 1.6737,  0.4025,  1.0000],
-        [ 0.7205,  1.0458,  1.0000],
-        [ 0.5732,  1.1179,  1.0000],
-        [ 0.5853,  1.5670,  1.0000],
-        [ 1.4854,  0.6220,  1.0000],
-        [ 0.3671,  1.3274,  1.0000],
-        [ 0.3858,  0.6232,  1.0000],
-        [ 0.6664,  1.0694,  1.0000],
-        [-0.0096,  0.5217,  1.0000],
-        [ 0.4950,  1.9198,  1.0000],
-        [ 1.0538,  1.3820,  1.0000],
-        [-0.2613,  0.8820,  1.0000],
-        [ 0.3996,  1.8843,  1.0000],
-        [ 1.1924,  0.0861,  1.0000],
-        [ 0.4659,  1.7043,  1.0000],
-        [ 1.2955,  1.5032,  1.0000],
-        [ 0.6273,  1.6799,  1.0000],
-        [ 1.6033,  0.1661,  1.0000],
-        [ 1.1614,  0.6470,  1.0000],
-        [ 1.0195,  0.3744,  1.0000],
-        [ 1.3668,  1.4446,  1.0000],
-        [ 0.5516,  0.7548,  1.0000],
-        [ 1.3437,  1.2409,  1.0000],
-        [ 0.6146,  0.9260,  1.0000],
-        [ 0.8570,  1.3993,  1.0000],
-        [ 0.5396,  0.5329,  1.0000],
-        [ 1.1257,  1.1977,  1.0000],
-        [ 1.1677,  2.0080,  1.0000],
-        [ 1.7434,  0.4813,  1.0000],
-        [ 1.7205,  0.7583,  1.0000],
-        [ 0.8614,  0.5443,  1.0000],
-        [ 1.5042,  1.4127,  1.0000],
-        [ 1.3134,  1.0174,  1.0000],
-        [ 0.6180,  0.6978,  1.0000],
-        [ 1.9709,  0.7133,  1.0000],
-        [ 0.7136,  1.6948,  1.0000],
-        [ 0.1170,  1.1652,  1.0000]])
-y: tensor([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-        0., 0., 0., 0., 0., 0., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
-        1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
-        1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
-        1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
-        1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
-        1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
-        1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
-        1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
-        1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.])</code></pre>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> generate_classification_data(noise <span class="op">=</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<div id="cell-7" class="cell" data-execution_count="59">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'seaborn-v0_8-whitegrid'</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_classification_data(X, y, ax):</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> X.shape[<span class="dv">1</span>] <span class="op">==</span> <span class="dv">3</span>, <span class="st">"This function only works for data created with p_dims == 2"</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    targets <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>]</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    markers <span class="op">=</span> [<span class="st">"o"</span> , <span class="st">","</span>]</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        ix <span class="op">=</span> y <span class="op">==</span> targets[i]</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        ax.scatter(X[ix,<span class="dv">0</span>], X[ix,<span class="dv">1</span>], s <span class="op">=</span> <span class="dv">20</span>,  c <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>y[ix]<span class="op">-</span><span class="dv">1</span>, facecolors <span class="op">=</span> <span class="st">"none"</span>, edgecolors <span class="op">=</span> <span class="st">"darkgrey"</span>, cmap <span class="op">=</span> <span class="st">"BrBG"</span>, vmin <span class="op">=</span> <span class="op">-</span><span class="dv">2</span>, vmax <span class="op">=</span> <span class="dv">2</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>, marker <span class="op">=</span> markers[i])</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    ax.<span class="bu">set</span>(xlabel <span class="op">=</span> <span class="vs">r"$x_1$"</span>, ylabel <span class="op">=</span> <span class="vs">r"$x_2$"</span>)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize <span class="op">=</span> (<span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>plot_classification_data(X, y, ax)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-8" class="cell" data-execution_count="254">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'seaborn-v0_8-whitegrid'</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_classification_data(X, y, ax):</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> X.shape[<span class="dv">1</span>] <span class="op">==</span> <span class="dv">3</span>, <span class="st">"This function only works for data created with p_dims == 2"</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    targets <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    markers <span class="op">=</span> [<span class="st">"o"</span> , <span class="st">","</span>]</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        ix <span class="op">=</span> y <span class="op">==</span> targets[i]</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        ax.scatter(X[ix,<span class="dv">0</span>], X[ix,<span class="dv">1</span>], s <span class="op">=</span> <span class="dv">20</span>,  c <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>y[ix]<span class="op">-</span><span class="dv">1</span>, facecolors <span class="op">=</span> <span class="st">"none"</span>, edgecolors <span class="op">=</span> <span class="st">"darkgrey"</span>, cmap <span class="op">=</span> <span class="st">"BrBG"</span>, vmin <span class="op">=</span> <span class="op">-</span><span class="dv">2</span>, vmax <span class="op">=</span> <span class="dv">2</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>, marker <span class="op">=</span> markers[i])</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    ax.<span class="bu">set</span>(xlabel <span class="op">=</span> <span class="vs">r"$x_1$"</span>, ylabel <span class="op">=</span> <span class="vs">r"$x_2$"</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize <span class="op">=</span> (<span class="dv">4</span>, <span class="dv">4</span>))</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>plot_classification_data(X, y, ax)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -599,12 +283,14 @@ y: tensor([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0
 <p>Now that we have a binary classification dataset, we can declare two Logistic Regression models, one that will use the standard gradient opitimzer and one that will use Newton’s Method optimization.</p>
 </section>
 </section>
-<section id="palmers-penguins-dataset-for-experiements" class="level1">
-<h1>Palmers Penguins Dataset for Experiements</h1>
-<div id="cell-11" class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.read_csv(<span class="st">"breast-cancer.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="224">
+<section id="breast-cancer-dataset-for-experiements" class="level1">
+<h1>Breast Cancer Dataset for Experiements</h1>
+<p>I will be using the Breast Cancer dataset from kaggle to show how standard gradient descent optimization and Newton’s Method opitimization works on a real, empirical dataset. Below is the conversion from the csv into a dataframe, with the <code>head()</code> function giving us an idea of the data we are working with.</p>
+<div id="cell-12" class="cell" data-execution_count="255">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.read_csv(<span class="st">"breast-cancer.csv"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="255">
 <div>
 
 
@@ -766,45 +452,46 @@ y: tensor([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0
 </section>
 <section id="data-preprocessing" class="level1">
 <h1>Data Preprocessing</h1>
-<div id="cell-13" class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from sklearn.model_selection import train_test_split</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> prepare_data(df):</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.dropna()</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> np.where(df[<span class="st">'diagnosis'</span>] <span class="op">==</span> <span class="st">"M"</span>, <span class="va">True</span>, <span class="va">False</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.drop([<span class="st">'diagnosis'</span>], axis <span class="op">=</span> <span class="dv">1</span>)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.drop([<span class="st">'id'</span>], axis <span class="op">=</span> <span class="dv">1</span>)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    scaler <span class="op">=</span> StandardScaler()</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    X_scaled <span class="op">=</span> scaler.fit_transform(df)</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X_scaled, y</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> prepare_data(train)</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> torch.from_numpy(X.astype(np.float32))</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> torch.from_numpy(y).<span class="bu">float</span>()</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> torch.cat([X, torch.ones(X.shape[<span class="dv">0</span>], <span class="dv">1</span>)], dim<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co"># X_train, X_test, y_train, y_test = train_test_split(</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">#      X, y, test_size=0.20, random_state=42)</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co"># X_train, X_validate, y_train, y_validate = train_test_split(</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co">#     X_train, y_train, test_size=0.20, random_state=42)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This data requires some processing in order to work for both standard gradient descent and Newtons Method. Mainly, we must seperating the predictive features from the labels, drop unnecessary columns like <code>id</code> as well as drop rows that have <code>NaN</code> values. In order to ensure that the input matrix is full rank and therefore invertible, as Newtons Method requires the hessian of the input matrix to be inverted, we must scale the features using the <code>StandardScaler()</code> function as well as add a column of 1’s. With these changes, we can be confident that the input matrix will not be singular and can be inverted, allowing Newton’s Method of optimization to work as expected.</p>
+<div id="cell-14" class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from sklearn.model_selection import train_test_split</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> prepare_data(df):</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.dropna()</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> np.where(df[<span class="st">'diagnosis'</span>] <span class="op">==</span> <span class="st">"M"</span>, <span class="va">True</span>, <span class="va">False</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.drop([<span class="st">'diagnosis'</span>], axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.drop([<span class="st">'id'</span>], axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    X_scaled <span class="op">=</span> scaler.fit_transform(df)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X_scaled, y</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> prepare_data(train)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> torch.from_numpy(X.astype(np.float32))</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> torch.from_numpy(y).<span class="bu">float</span>()</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> torch.cat([X, torch.ones(X.shape[<span class="dv">0</span>], <span class="dv">1</span>)], dim<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-14" class="cell" data-execution_count="240">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Logistic Regression model with gradient descent optimizer</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>LR_GD <span class="op">=</span> LogisticRegression()</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>opt_GD <span class="op">=</span> GradientDescentOptimizer(LR_GD)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Logistic Regression model with Newton's Method optimizer </span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>LR_NM <span class="op">=</span> LogisticRegression()</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>opt_NM <span class="op">=</span> NewtonOptimizer(LR_NM)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>num_iterations <span class="op">=</span> <span class="dv">1000</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(num_iterations):</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    opt_GD.step(X, y, <span class="fl">0.1</span>, <span class="dv">0</span>, <span class="va">False</span>, <span class="dv">0</span>)</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    opt_NM.step(X, y, <span class="dv">1</span>)</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Gradient Descent Logistic Regression Loss: </span><span class="sc">{</span>LR_GD<span class="sc">.</span>loss(X,y)<span class="sc">}</span><span class="ch">\n</span><span class="ss">Newton's Method Logistic Regression Loss: </span><span class="sc">{</span>LR_NM<span class="sc">.</span>loss(X,y)<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="training-the-models" class="level1">
+<h1>Training the Models</h1>
+<p>Now that we have processed the data, we are ready to train two logistic regression models on this data, with one using standard gradient descent and the other using Newton’s Method.</p>
+<div id="cell-16" class="cell" data-execution_count="240">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Logistic Regression model with gradient descent optimizer</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>LR_GD <span class="op">=</span> LogisticRegression()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>opt_GD <span class="op">=</span> GradientDescentOptimizer(LR_GD)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Logistic Regression model with Newton's Method optimizer </span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>LR_NM <span class="op">=</span> LogisticRegression()</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>opt_NM <span class="op">=</span> NewtonOptimizer(LR_NM)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>num_iterations <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(num_iterations):</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    opt_GD.step(X, y, <span class="fl">0.1</span>, <span class="dv">0</span>, <span class="va">False</span>, <span class="dv">0</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    opt_NM.step(X, y, <span class="dv">1</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Gradient Descent Logistic Regression Loss: </span><span class="sc">{</span>LR_GD<span class="sc">.</span>loss(X,y)<span class="sc">}</span><span class="ch">\n</span><span class="ss">Newton's Method Logistic Regression Loss: </span><span class="sc">{</span>LR_NM<span class="sc">.</span>loss(X,y)<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Gradient Descent Logistic Regression Loss: 0.05876803398132324
 Newton's Method Logistic Regression Loss: 0.08070827275514603
@@ -817,40 +504,40 @@ Newton's Method Logistic Regression Loss: 0.08070827275514603
 <p>We can see that when giving the standard gradient descent optimizer a learning rate of <code>0.1</code> and the Newton’s Method optimizer a learning rate of <code>1</code>, they produce a similar loss in the same amount of iterations.</p>
 <section id="experiment-2-faster-convergence-using-newtons-method" class="level2">
 <h2 class="anchored" data-anchor-id="experiment-2-faster-convergence-using-newtons-method">Experiment 2: Faster Convergence Using Newton’s Method</h2>
-<p>Through this experiment I will demonstrate that Newton’s Method in certain circumstances can have a much faster convergence than Standard Gradient Descent optimizaiton. The circumstance shown below is when the data has low noise and low number of points and dimensions. In this case, Newton’s Method is able to converge faster than standard gradient descent.</p>
-<div id="cell-17" class="cell" data-execution_count="248">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>LR_GD <span class="op">=</span> LogisticRegression()</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>opt_GD <span class="op">=</span> GradientDescentOptimizer(LR_GD)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Logistic Regression model with Newton's Method optimizer </span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>LR_NM <span class="op">=</span> LogisticRegression()</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>opt_NM <span class="op">=</span> NewtonOptimizer(LR_NM)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Track loss over iterations</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>losses_gd <span class="op">=</span> []</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>losses_nm <span class="op">=</span> []</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Training loop</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>n_steps <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n_steps):</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Gradient Descent</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    opt_GD.step(X, y, <span class="fl">0.1</span>, <span class="dv">0</span>, <span class="va">False</span>, <span class="dv">0</span>)</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    loss_gd <span class="op">=</span> LR_GD.loss(X, y).item()</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    losses_gd.append(loss_gd)</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Newton's Method</span></span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    opt_NM.step(X, y, alpha<span class="op">=</span><span class="dv">100</span>)</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    loss_nm <span class="op">=</span> LR_NM.loss(X, y).item()</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    losses_nm.append(loss_nm)</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot convergence</span></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>plt.plot(losses_gd, label<span class="op">=</span><span class="st">"Gradient Descent"</span>, marker<span class="op">=</span><span class="st">'o'</span>)</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>plt.plot(losses_nm, label<span class="op">=</span><span class="st">"Newton's Method"</span>, marker<span class="op">=</span><span class="st">'x'</span>)</span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Iteration"</span>)</span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Empirical Risk (Loss)"</span>)</span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Convergence Comparison: GD vs Newton"</span>)</span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Through this experiment I will demonstrate that Newton’s Method in certain circumstances can have a much faster convergence than Standard Gradient Descent optimizaiton. The circumstance shown below is when the data has low noise and low number of points and dimensions, and gradient descent is using a learning rate of <code>0.1</code> while Newton’s Method is using a learning rate of <code>100</code>. In this case, Newton’s Method is able to converge faster than standard gradient descent.</p>
+<div id="cell-19" class="cell" data-execution_count="259">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>LR_GD <span class="op">=</span> LogisticRegression()</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>opt_GD <span class="op">=</span> GradientDescentOptimizer(LR_GD)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Logistic Regression model with Newton's Method optimizer </span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>LR_NM <span class="op">=</span> LogisticRegression()</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>opt_NM <span class="op">=</span> NewtonOptimizer(LR_NM)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Track loss over iterations</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>losses_gd <span class="op">=</span> []</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>losses_nm <span class="op">=</span> []</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Training loop</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>n_steps <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n_steps):</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Gradient Descent</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    opt_GD.step(X, y, <span class="fl">0.1</span>, <span class="dv">0</span>, <span class="va">False</span>, <span class="dv">0</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    loss_gd <span class="op">=</span> LR_GD.loss(X, y).item()</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    losses_gd.append(loss_gd)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Newton's Method</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    opt_NM.step(X, y, alpha<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    loss_nm <span class="op">=</span> LR_NM.loss(X, y).item()</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    losses_nm.append(loss_nm)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot convergence</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>plt.plot(losses_gd, label<span class="op">=</span><span class="st">"Gradient Descent"</span>, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>plt.plot(losses_nm, label<span class="op">=</span><span class="st">"Newton's Method"</span>, marker<span class="op">=</span><span class="st">'x'</span>)</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Iteration"</span>)</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Empirical Risk (Loss)"</span>)</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Convergence Comparison: GD vs Newton"</span>)</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -864,97 +551,47 @@ Newton's Method Logistic Regression Loss: 0.08070827275514603
 <section id="results-1" class="level1">
 <h1>Results</h1>
 <p>As demonsrated by the graph, in 100 iterations optimization with Newton’s Method reaches near zero loss, while the loss using standard gradient descent for optimization is around <code>0.25</code>.</p>
-<section id="experiment-3-newtons-method-fails-to-converge-when-learing-rate-is-large" class="level2">
-<h2 class="anchored" data-anchor-id="experiment-3-newtons-method-fails-to-converge-when-learing-rate-is-large">Experiment 3: Newton’s Method Fails to Converge When Learing Rate is Large</h2>
-<p>Now, I will demonstrate how a large learning rate can cause Newton’s Method to fail to converge at all.</p>
-<div id="cell-20" class="cell" data-execution_count="247">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># X, y = generate_classification_data(noise = 0.01, p_dims=2, n_points=2000)</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>LR_NM <span class="op">=</span> LogisticRegression()</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>opt_NM <span class="op">=</span> NewtonOptimizer(LR_NM)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Track loss over iterations</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>losses_nm <span class="op">=</span> []</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Training loop</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>n_steps <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n_steps):</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Newton's Method</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    opt_NM.step(X, y, alpha<span class="op">=</span><span class="dv">100</span>)</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    loss_nm <span class="op">=</span> LR_NM.loss(X, y).item()</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    losses_nm.append(loss_nm)</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot convergence</span></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>plt.plot(losses_nm, label<span class="op">=</span><span class="st">"Newton's Method"</span>, marker<span class="op">=</span><span class="st">'x'</span>)</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Iteration"</span>)</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Empirical Risk (Loss)"</span>)</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Newton Convergence"</span>)</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
 </section>
 <section id="adam-optimization" class="level1">
 <h1>Adam Optimization</h1>
-<div id="cell-22" class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>LR_Adam <span class="op">=</span> LogisticRegression()</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>opt_Adam <span class="op">=</span> AdamOptimizer(LR_Adam)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>num_iterations <span class="op">=</span> <span class="dv">1000</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(num_iterations):</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Using the same dataset X and y as with newtons method</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    opt_Adam.step(X, y, <span class="fl">0.01</span>, <span class="fl">0.9</span>, <span class="fl">0.999</span>, <span class="fl">1e-8</span>, <span class="dv">10</span>)</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Gradient Descent Logistic Regression Loss: </span><span class="sc">{</span>LR_Adam<span class="sc">.</span>loss(X,y)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Gradient Descent Logistic Regression Loss: 0.20271477103233337</code></pre>
-</div>
-</div>
-</section>
-<section id="comparing-adam-optimzation-and-standard-minibatch-gradient-descent" class="level1">
-<h1>Comparing Adam Optimzation and Standard Minibatch Gradient Descent</h1>
-<div id="cell-24" class="cell" data-execution_count="184">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>num_iterations <span class="op">=</span> <span class="dv">1000</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>step_size <span class="op">=</span> [<span class="fl">0.0001</span>, <span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="dv">1</span>]</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>minibatch_GD_loss <span class="op">=</span> []</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>adam_OPT_loss <span class="op">=</span> []</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> step <span class="kw">in</span> step_size: </span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    LR_GD <span class="op">=</span> LogisticRegression()</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    opt_GD <span class="op">=</span> GradientDescentOptimizer(LR_GD)</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    LR_Adam <span class="op">=</span> LogisticRegression()</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    opt_Adam <span class="op">=</span> AdamOptimizer(LR_Adam)</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(num_iterations):</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Using the same dataset X and y as with newtons method</span></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>        opt_Adam.step(X, y, step, <span class="fl">0.9</span>, <span class="fl">0.999</span>, <span class="fl">1e-8</span>, <span class="dv">10</span>)</span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>        opt_GD.step(X, y, step, <span class="fl">0.9</span>, <span class="va">True</span>, <span class="dv">10</span>)</span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    adam_OPT_loss.append(LR_Adam.loss(X, y).item())</span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    minibatch_GD_loss.append(LR_GD.loss(X, y).item())</span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Make some type of table</span></span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="co">#first convert to series</span></span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Minibatch GD Loss"</span>: minibatch_GD_loss,</span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Adam Optimizer Loss"</span>: adam_OPT_loss</span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>}, index<span class="op">=</span>step_size)</span>
-<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We now move on to our second advanced optimizer, Adam optimization, where its implementation is also shown in the source code at the top of this blog post. Below, I compare Adam optimization to standard minibatch gradient descent with various step sizes shared between the two optimization algorithms.</p>
+<div id="cell-22" class="cell" data-execution_count="257">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>num_iterations <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>step_size <span class="op">=</span> [<span class="fl">0.0001</span>, <span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="dv">1</span>]</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>minibatch_GD_loss <span class="op">=</span> []</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>adam_OPT_loss <span class="op">=</span> []</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> step <span class="kw">in</span> step_size: </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    LR_GD <span class="op">=</span> LogisticRegression()</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    opt_GD <span class="op">=</span> GradientDescentOptimizer(LR_GD)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    LR_Adam <span class="op">=</span> LogisticRegression()</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    opt_Adam <span class="op">=</span> AdamOptimizer(LR_Adam)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(num_iterations):</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Using the same dataset X and y as with newtons method</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>        opt_Adam.step(X, y, step, <span class="fl">0.9</span>, <span class="fl">0.999</span>, <span class="fl">1e-8</span>, <span class="dv">10</span>)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>        opt_GD.step(X, y, step, <span class="fl">0.9</span>, <span class="va">True</span>, <span class="dv">10</span>)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    adam_OPT_loss.append(LR_Adam.loss(X, y).item())</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    minibatch_GD_loss.append(LR_GD.loss(X, y).item())</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Make some type of table</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="co">#first convert to series</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Minibatch GD Loss"</span>: minibatch_GD_loss,</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Adam Optimizer Loss"</span>: adam_OPT_loss</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>}, index<span class="op">=</span>step_size)</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        Minibatch GD Loss  Adam Optimizer Loss
-0.0001           1.537306             1.534232
-0.0010           1.546394             1.091133
-0.0100           0.872059             0.018603
-0.1000           0.008254             0.001868
-1.0000           0.000414             0.152991</code></pre>
+0.0001           0.646615             0.618412
+0.0010           0.528996             0.399902
+0.0100           0.333009             0.178175
+0.1000           0.181183             0.159312
+1.0000           0.160076             0.262893</code></pre>
 </div>
 </div>
 </section>
@@ -964,43 +601,44 @@ Newton's Method Logistic Regression Loss: 0.08070827275514603
 </section>
 <section id="comparing-adam-and-newtons-method-optimization" class="level1">
 <h1>Comparing Adam and Newton’s Method Optimization</h1>
-<div id="cell-27" class="cell" data-execution_count="185">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> generate_classification_data(noise <span class="op">=</span> <span class="fl">0.8</span>)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>LR_Adam <span class="op">=</span> LogisticRegression()</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>opt_Adam <span class="op">=</span> AdamOptimizer(LR_Adam)</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>LR_NM <span class="op">=</span> LogisticRegression()</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>opt_NM <span class="op">=</span> NewtonOptimizer(LR_NM)</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>LOSS_THRESHOLD <span class="op">=</span> <span class="fl">0.2</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>MAX_ITER <span class="op">=</span> <span class="dv">1000</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>start_adam <span class="op">=</span> time.time()</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(MAX_ITER):</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    opt_Adam.step(X, y, step, <span class="fl">0.9</span>, <span class="fl">0.999</span>, <span class="fl">1e-8</span>, <span class="dv">10</span>)</span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> LR_Adam.loss(X, y).item()</span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> loss <span class="op">&lt;</span> LOSS_THRESHOLD:</span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>end_adam <span class="op">=</span> time.time()</span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>adam_time <span class="op">=</span> end_adam <span class="op">-</span> start_adam</span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>start_newton <span class="op">=</span> time.time()</span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(MAX_ITER):</span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>    opt_NM.step(X, y, <span class="fl">0.9</span>)</span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> LR_NM.loss(X, y).item()</span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> loss <span class="op">&lt;</span> LOSS_THRESHOLD:</span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>end_newton <span class="op">=</span> time.time()</span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>newton_time <span class="op">=</span> end_newton <span class="op">-</span> start_newton</span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Newton's Method Optimization converge time: </span><span class="sc">{</span>newton_time<span class="sc">}</span><span class="ch">\n</span><span class="ss">Adam Optimization converge time: </span><span class="sc">{</span>adam_time<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now, I will demonstrate the difference of the speed of convergence between using Adam opitimization or Newton’s Method. The way I will show this speed is by using the <code>time()</code> function, which will allow us to track the time of a particular operation. For <code>1000</code> iterations, I perform training run for Adam optimization and Newton’s Method optimization, which will stop when it has reached a loss threshold of <code>0.2</code>. With this, we can see the time difference between how long it takes for each optimizer to reach a loss of <code>0.2</code> on the same dataset.</p>
+<div id="cell-25" class="cell" data-execution_count="185">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> generate_classification_data(noise <span class="op">=</span> <span class="fl">0.8</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>LR_Adam <span class="op">=</span> LogisticRegression()</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>opt_Adam <span class="op">=</span> AdamOptimizer(LR_Adam)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>LR_NM <span class="op">=</span> LogisticRegression()</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>opt_NM <span class="op">=</span> NewtonOptimizer(LR_NM)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>LOSS_THRESHOLD <span class="op">=</span> <span class="fl">0.2</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>MAX_ITER <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>start_adam <span class="op">=</span> time.time()</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(MAX_ITER):</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    opt_Adam.step(X, y, step, <span class="fl">0.9</span>, <span class="fl">0.999</span>, <span class="fl">1e-8</span>, <span class="dv">10</span>)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> LR_Adam.loss(X, y).item()</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> loss <span class="op">&lt;</span> LOSS_THRESHOLD:</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>end_adam <span class="op">=</span> time.time()</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>adam_time <span class="op">=</span> end_adam <span class="op">-</span> start_adam</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>start_newton <span class="op">=</span> time.time()</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(MAX_ITER):</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    opt_NM.step(X, y, <span class="fl">0.9</span>)</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> LR_NM.loss(X, y).item()</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> loss <span class="op">&lt;</span> LOSS_THRESHOLD:</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>end_newton <span class="op">=</span> time.time()</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>newton_time <span class="op">=</span> end_newton <span class="op">-</span> start_newton</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Newton's Method Optimization converge time: </span><span class="sc">{</span>newton_time<span class="sc">}</span><span class="ch">\n</span><span class="ss">Adam Optimization converge time: </span><span class="sc">{</span>adam_time<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Newton's Method Optimization converge time: 0.043290138244628906
 Adam Optimization converge time: 0.06393694877624512</code></pre>
@@ -1009,11 +647,11 @@ Adam Optimization converge time: 0.06393694877624512</code></pre>
 </section>
 <section id="results-3" class="level1">
 <h1>Results</h1>
-<p>Seems like Newton’s Method converges faster than Adam Optimization on this dataset.</p>
+<p>As the output shows, for the same dataset, Newton’s Method seemingly reaches a loss of <code>0.2</code> faster than Adam optimization, however the times are very similar and thus do not definitively prove one of these optimizers being better than the other.</p>
 </section>
-<section id="results-4" class="level1">
-<h1>Results</h1>
-<p>Here, we demonstrate that Logistic Regression using either Newton’s Method or Gradient Descent optimization can converge to a similar value given enough iterations and a small enough learning rate <code>α</code>.</p>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>Through the implementations of Newton’s Method and Adam optimization, as well as through experimenting with the optimizers on various datasets, I learned the general behavior of both optimizing algorithms. Through experimenting with Netwon’s Method versus standard gradient descent, I learned that will a large learning rate with standard gradient descent usually causes the optimizer to overshoot, large learning rates with Newton’s Method speeds up convergence considerably. I also came to understand how Adam optimization builds off of stochastic gradient descent and can lead to faster convergence.</p>
 
 
 </section>
